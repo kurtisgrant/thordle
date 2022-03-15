@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import Keyboard from './Components/Keyboard';
 import Board from './Components/Board';
 import styled from 'styled-components';
@@ -13,6 +14,7 @@ const StyledApp = styled.div`
 `;
 
 const AppWrapper = styled.div`
+  padding-top: 2rem;
   width: 500px;
   display: flex;
   flex-direction: column;
@@ -21,6 +23,7 @@ const AppWrapper = styled.div`
 `
 
 function App() {
+  const [guesses, setGuesses] = useState([])
   return (
     <StyledApp>
       <AppWrapper>

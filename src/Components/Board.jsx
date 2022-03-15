@@ -1,44 +1,24 @@
 import React from 'react';
 import styled from 'styled-components';
-import Square from './Square';
+import Row from './Row';
 
 const StyledBoard = styled.div`
   display: grid;
-  gap: 0.4em;
+  gap: .3rem;
   grid-template-columns: repeat(5, 1fr);
-  min-height: 300px;
-  width: 300px;
-  // background-color: purple;
+  width: 320px;
 `;
 
 function Board() {
+
   return (
     <StyledBoard>
-      <Square key='a' letter='a' />
-      <Square key='a' letter='a' />
-      <Square key='a' letter='a' />
-      <Square key='a' letter='a' />
-      <Square key='a' letter='a' />
-      <Square key='a' letter='a' />
-      <Square key='a' letter='a' />
-      <Square key='a' letter='a' />
-      <Square key='a' letter='a' />
-      <Square key='a' letter='a' />
-      <Square key='a' letter='a' />
-      <Square key='a' letter='a' />
-      <Square key='a' letter='a' />
-      <Square key='a' letter='a' />
-      <Square key='a' letter='a' />
-      <Square key='a' letter='a' />
-      <Square key='a' letter='a' />
-      <Square key='a' letter='a' />
-      <Square key='a' letter='a' />
-      <Square key='a' letter='a' />
-      <Square key='a' letter='a' />
-      <Square key='a' letter='a' />
-      <Square key='a' letter='a' />
-      <Square key='a' letter='a' />
-      <Square key='a' letter='a' />
+      <Row word='tease' guess='water' confirmed={true} row={1} />
+      <Row word='tease' guess='plate' confirmed={true} row={2} />
+      <Row word='tease' guess='stake' confirmed={true} row={3} />
+      <Row word='tease' guess='teas' confirmed={false} row={4} />
+      <Row word='tease' guess='' confirmed={false} row={5} />
+      <Row word='tease' guess='' confirmed={false} row={6} />
     </StyledBoard>
   );
 }
