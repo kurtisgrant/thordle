@@ -12,7 +12,7 @@ const StyledSquare = styled.div`
   height: 55px;
   ${props => {
     if (props.state !== 'guessing') return;
-    return `border: ${props.letter ? '#ffffff60' : '#ffffff40'} solid 2px;`
+    return `border: ${props.letter ? '#ffffff60' : '#ffffff30'} solid 2px;`
     }
   }}
   ${props => {

@@ -6,7 +6,8 @@ background-color: #888888;
 color: #fff;
 font-weight: bold;
 border-radius: .4em;
-width: 1.8em;
+${props => props.wide ? 'min-width: 3rem;' : 'min-width: 1.2rem;'}
+padding: 0 0.3rem 0 0.3rem;
 height: 3em;
 display: grid;
 place-items: center;
@@ -20,7 +21,7 @@ function Key(props) {
 
 
   return (
-    <StyledKey>{content.toUpperCase()}</StyledKey>
+    <StyledKey onClick={props.onClick} wide={props.wide}>{content}</StyledKey>
   )
 }
 

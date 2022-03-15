@@ -6,7 +6,8 @@ const StyledBoard = styled.div`
   display: grid;
   gap: .3rem;
   grid-template-columns: repeat(5, 1fr);
-  width: 320px;
+  width: 100%;
+  max-width: 300px;
 `;
 
 function Board() {
