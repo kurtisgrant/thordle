@@ -12,9 +12,9 @@ background-color: ${props => colorMapping[props.state] || '#888888'};
 color: #fff;
 font-weight: bold;
 border-radius: .4em;
-min-width: ${props => props.wide ? '3rem;' : '1.2rem;'}
+min-width: ${props => props.wide ? '2.8rem;' : '1.5rem;'}
 padding: 0 0.3rem 0 0.3rem;
-height: 3em;
+height: 100%;
 display: grid;
 place-items: center;
 cursor: pointer;

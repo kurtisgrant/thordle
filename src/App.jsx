@@ -6,8 +6,9 @@ import words5 from './data/962-5-letter-words';
 import scrabbleWords from './data/172820-scrabble-words';
 
 const StyledApp = styled.div`
-  min-height: 100vh;
   width: 100vw;
+  height: 100vh; /* Fallback for browsers that do not support Custom Properties */
+  height: calc(var(--vh, 1vh) * 100);
   background-color: #111;
   display: flex;
   flex-direction: column;
@@ -16,13 +17,14 @@ const StyledApp = styled.div`
 `;
 
 const AppWrapper = styled.div`
-  padding-top: 2rem;
   width: 100%;
+  height: 100%;
+  max-height: 700px;
   max-width: 500px;
   display: flex;
   flex-direction: column;
+  // justify-content: space-around;
   align-items: center;
-  gap: 1em;
 `;
 
 function App() {
@@ -31,6 +33,17 @@ function App() {
   const [word, setWord] = useState(
     words5[Math.floor(Math.random() * words5.length)].toUpperCase()
   );
+
+  const setAppHeight = () => {
+    // Set CSS vh variable to window innerheight. 
+    // This sets proper page sizes for mobile browsers.
+    const vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+  }
+  useEffect(() => {
+    setAppHeight();
+    window.onresize = setAppHeight;
+  }, []);
 
   useEffect(() => {
     document.addEventListener('keydown', handleKeyPress);
@@ -68,8 +81,8 @@ function App() {
   return (
     <StyledApp>
       <AppWrapper>
-        <Board {...{word, guesses, current: curGuess}} />
-        <Keyboard {...{word, guesses, addLetter, removeLetter, submitGuess}} />
+        <Board {...{ word, guesses, current: curGuess }} />
+        <Keyboard {...{ word, guesses, addLetter, removeLetter, submitGuess }} />
       </AppWrapper>
     </StyledApp>
   );

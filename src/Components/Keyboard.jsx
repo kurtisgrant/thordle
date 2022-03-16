@@ -5,6 +5,8 @@ import { ReactComponent as Backspace } from '../assets/backspace.svg';
 
 const StyledKeyboard = styled.div`
 display: flex;
+margin: 0 0 1rem 0;
+flex: 1;
 width: 100%;
 flex-direction: column;
 align-items: center;
@@ -13,8 +15,12 @@ gap: 3px;
 `;
 const KeyRowWrapper = styled.div`
 display: flex;
+max-height: 3.2rem;
+min-height: 1.6rem;
+flex: 1;
 width: 100%;
 justify-content: center;
+align-items: center;
 flex-direction: row;
 gap: 3px;
 `;

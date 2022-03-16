@@ -4,6 +4,7 @@ import Row from './Row';
 
 const StyledBoard = styled.div`
   display: grid;
+  margin: 1rem 0 1rem;
   gap: .3rem;
   grid-template-columns: repeat(5, 1fr);
   width: 100%;
