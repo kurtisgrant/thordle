@@ -10,16 +10,22 @@ const StyledBoard = styled.div`
   max-width: 300px;
 `;
 
-function Board() {
+function Board({word, current, guesses}) {
+
+  const rows = []
+  for (let i = 0; i < 6; i++) {
+    if (i <= guesses.length -1) {
+      rows.push(<Row key={i} row={i} word={word} guess={guesses[i]} confirmed />)
+    } else if (i === guesses.length) {
+      rows.push(<Row key={i} row={i} word={word} guess={current} />)
+    } else {
+      rows.push(<Row key={i} row={i} word={word} guess="" />)
+    }
+  }
 
   return (
     <StyledBoard>
-      <Row word='tease' guess='water' confirmed={true} row={1} />
-      <Row word='tease' guess='plate' confirmed={true} row={2} />
-      <Row word='tease' guess='stake' confirmed={true} row={3} />
-      <Row word='tease' guess='teas' confirmed={false} row={4} />
-      <Row word='tease' guess='' confirmed={false} row={5} />
-      <Row word='tease' guess='' confirmed={false} row={6} />
+      {rows}
     </StyledBoard>
   );
 }

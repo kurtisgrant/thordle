@@ -1,12 +1,6 @@
-export default [
-  "bible",
-"dutch",
-"earth",
-"mafia",
-"march",
-"north",
-"south",
-"abort",
+
+  export default [
+    "abort",
 "about",
 "above",
 "abuse",
@@ -75,6 +69,7 @@ export default [
 "belly",
 "below",
 "bench",
+"bible",
 "bingo",
 "birth",
 "bitch",
@@ -261,8 +256,10 @@ export default [
 "drunk",
 "dryer",
 "dummy",
+"dutch",
 "early",
 "early",
+"earth",
 "eight",
 "elbow",
 "elect",
@@ -463,6 +460,7 @@ export default [
 "lying",
 "lyric",
 "madam",
+"mafia",
 "magic",
 "magic",
 "major",
@@ -470,6 +468,7 @@ export default [
 "maker",
 "manly",
 "maple",
+"march",
 "march",
 "marry",
 "match",
@@ -519,6 +518,7 @@ export default [
 "ninth",
 "noble",
 "noise",
+"north",
 "notch",
 "novel",
 "nurse",
@@ -742,6 +742,7 @@ export default [
 "sorry",
 "sound",
 "sound",
+"south",
 "space",
 "spank",
 "spare",
@@ -961,4 +962,4 @@ export default [
 "yours",
 "youth",
 "yummy"
-];
+  ]

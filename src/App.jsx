@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import Keyboard from './Components/Keyboard';
 import Board from './Components/Board';
 import styled from 'styled-components';
+import words5 from './data/962-5-letter-words';
+import scrabbleWords from './data/172820-scrabble-words';
 
 const StyledApp = styled.div`
   min-height: 100vh;
@@ -26,6 +28,9 @@ const AppWrapper = styled.div`
 function App() {
   const [guesses, setGuesses] = useState([]);
   const [curGuess, setCurGuess] = useState('');
+  const [word, setWord] = useState(
+    words5[Math.floor(Math.random() * words5.length)].toUpperCase()
+  );
 
   useEffect(() => {
     document.addEventListener('keydown', handleKeyPress);
@@ -36,7 +41,7 @@ function App() {
 
   const handleKeyPress = (e) => {
     if (65 <= e.keyCode && e.keyCode <= 90) {
-      addLetter(e.key)
+      addLetter(e.key);
     } else if (e.keyCode === 8) {
       removeLetter();
     } else if (e.keyCode === 13) {
@@ -45,25 +50,26 @@ function App() {
   };
 
   const addLetter = letter => {
-    if (curGuess.length >= 5) return
+    if (curGuess.length >= 5) return;
     setCurGuess(prev => prev + letter.toUpperCase());
-  }
+  };
   const removeLetter = () => {
-    if (!curGuess.length) return
-    setCurGuess(prev => prev.slice(0, -1))
-  }
+    if (!curGuess.length) return;
+    setCurGuess(prev => prev.slice(0, -1));
+  };
   const submitGuess = () => {
-    if (curGuess.length !== 5) return;
+    const g = curGuess.toLowerCase();
+    if (g.length !== 5 || !scrabbleWords.includes(g)) return;
     setGuesses(prev => [...prev, curGuess]);
     setCurGuess('');
-  }
+  };
+
 
   return (
     <StyledApp>
       <AppWrapper>
-        <Board />
-        <div style={{color: 'white'}}>{curGuess} {guesses}</div>
-        <Keyboard addLetter={addLetter} removeLetter={removeLetter} submitGuess={submitGuess} />
+        <Board {...{word, guesses, current: curGuess}} />
+        <Keyboard {...{addLetter, removeLetter, submitGuess}} />
       </AppWrapper>
     </StyledApp>
   );
