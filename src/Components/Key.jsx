@@ -18,6 +18,7 @@ height: 3em;
 display: grid;
 place-items: center;
 cursor: pointer;
+user-select: none;
 &:hover { opacity: 0.8; }
 `;
 
