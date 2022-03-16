@@ -15,18 +15,18 @@ function Row(props) {
         />)
     }
   } else {
-    const states = Array(5).fill('incorrect');
+    const states = Array(5).fill('absent');
     const remainingLetts = props.word.split('').filter((lett, i) => {
       if (props.guess.length -1 < i) return true;
       if (lett === props.guess[i]) {
-        states[i] = 'correct'
+        states[i] = 'confirmed'
         return false
       }
       return true
     });
     for (let i = 0; i < 5; i++) {
-      if (remainingLetts.includes(props.guess[i]) && states[i] === 'incorrect') {
-        states[i] = 'partial';
+      if (remainingLetts.includes(props.guess[i]) && states[i] === 'absent') {
+        states[i] = 'present';
         const ind = remainingLetts.indexOf(props.guess[i]);
         remainingLetts[ind] = ''
       }
