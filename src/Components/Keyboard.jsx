@@ -19,46 +19,61 @@ flex-direction: row;
 gap: 3px;
 `;
 
-function Keyboard({ addLetter, removeLetter, submitGuess }) {
+function Keyboard({ word, guesses, addLetter, removeLetter, submitGuess }) {
 
-  const qweKeyRow = [];
-  const qweLetters = 'QWERTYUIOP';
-  for (let letter of qweLetters) {
-    qweKeyRow.push(<Key
-      key={letter}
-      onClick={() => addLetter(letter)}
-    >{letter}</Key>);
-  }
+  const letterRows = ['QWERTYUIOP', 'ASDFGHJKL', 'ZXCVBNM'];
+  const keyRows = [];
 
-  const asdKeyRow = [];
-  const asdLetters = 'ASDFGHJKL';
-  for (let letter of asdLetters) {
-    asdKeyRow.push(<Key
-      key={letter}
-      onClick={() => addLetter(letter)}
-    >{letter}</Key>);
-  }
-
-  const zxcKeyRow = [];
-  const zxcLetters = 'ZXCVBNM';
-  for (let letter of zxcLetters) {
-    zxcKeyRow.push(<Key
-      key={letter}
-      onClick={() => addLetter(letter)}
-    >{letter}</Key>);
+  for (let lRow of letterRows) {
+    const keyRow = [];
+    for (let letter of lRow) {
+      const state = getLetterState(letter, word, guesses);
+      keyRow.push(<Key
+        key={letter}
+        state={state}
+        onClick={() => addLetter(letter)}
+      >{letter}</Key>);
+    }
+    keyRows.push(keyRow);
   }
 
   return (
     <StyledKeyboard>
-      <KeyRowWrapper>{qweKeyRow}</KeyRowWrapper>
-      <KeyRowWrapper>{asdKeyRow}</KeyRowWrapper>
+      <KeyRowWrapper>{keyRows[0]}</KeyRowWrapper>
+      <KeyRowWrapper>{keyRows[1]}</KeyRowWrapper>
       <KeyRowWrapper>
         <Key onClick={submitGuess} wide>Enter</Key>
-        {zxcKeyRow}
+        {keyRows[2]}
         <Key onClick={removeLetter} wide><Backspace /></Key>
       </KeyRowWrapper>
     </StyledKeyboard>
   );
+}
+
+
+function getLetterState(lett, word, guesses) {
+  const letterIndicesInWord = [];
+  for (let i = 0; i < word.length; i++) {
+    if (word[i] === lett) {
+      letterIndicesInWord.push(i);
+    }
+  }
+
+  let used, present, confirmed;
+
+  for (let guess of guesses) {
+    if (guess.includes(lett)) used = true;
+    if (word.includes(lett) && used) present = true;
+
+    for (let location of letterIndicesInWord) {
+      if (guess[location] === lett) confirmed = true;
+    }
+  }
+
+  return confirmed ? 'confirmed' :
+    present ? 'present' :
+      used ? 'absent' :
+        'unused';
 }
 
 export default Keyboard;

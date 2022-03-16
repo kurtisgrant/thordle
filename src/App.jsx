@@ -69,7 +69,7 @@ function App() {
     <StyledApp>
       <AppWrapper>
         <Board {...{word, guesses, current: curGuess}} />
-        <Keyboard {...{addLetter, removeLetter, submitGuess}} />
+        <Keyboard {...{word, guesses, addLetter, removeLetter, submitGuess}} />
       </AppWrapper>
     </StyledApp>
   );
