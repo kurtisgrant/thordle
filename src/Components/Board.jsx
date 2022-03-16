@@ -2,6 +2,15 @@ import React from 'react';
 import styled from 'styled-components';
 import Row from './Row';
 
+const BoardWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  flex: 1.5;
+`;
+
 const StyledBoard = styled.div`
   display: grid;
   margin: 1rem 0 1rem;
@@ -25,9 +34,11 @@ function Board({word, current, guesses}) {
   }
 
   return (
-    <StyledBoard>
-      {rows}
-    </StyledBoard>
+    <BoardWrapper>
+      <StyledBoard>
+        {rows}
+      </StyledBoard>
+    </BoardWrapper>
   );
 }
 

@@ -3,16 +3,6 @@ import Key from './Key';
 import styled from 'styled-components';
 import { ReactComponent as Backspace } from '../assets/backspace.svg';
 
-const StyledKeyboard = styled.div`
-display: flex;
-margin: 0 0 1rem 0;
-flex: 1;
-width: 100%;
-flex-direction: column;
-align-items: center;
-justify-content: center;
-gap: 3px;
-`;
 const KeyRowWrapper = styled.div`
 display: flex;
 max-height: 3.2rem;
@@ -22,6 +12,17 @@ width: 100%;
 justify-content: center;
 align-items: center;
 flex-direction: row;
+gap: 3px;
+`;
+const StyledKeyboard = styled.div`
+display: flex;
+padding: 0 0 1rem 0;
+flex: 1;
+max-height: 12rem;
+width: 100%;
+flex-direction: column;
+align-items: center;
+justify-content: flex-end;
 gap: 3px;
 `;
 

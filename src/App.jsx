@@ -19,7 +19,7 @@ const StyledApp = styled.div`
 const AppWrapper = styled.div`
   width: 100%;
   height: 100%;
-  max-height: 700px;
+  max-height: 900px;
   max-width: 500px;
   display: flex;
   flex-direction: column;
