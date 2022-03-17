@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 const colorMapping = {
-  absent: '#555555',
+  absent: '#444',
   present: '#bf9f3b',
   confirmed: '#538d4e'
 };
@@ -12,7 +12,7 @@ background-color: ${props => colorMapping[props.state] || '#888888'};
 color: #fff;
 font-weight: bold;
 border-radius: .4em;
-min-width: ${props => props.wide ? '2.8rem;' : '1.5rem;'}
+width: ${props => props.wide ? '3rem;' : '1.5rem;'}
 padding: 0 0.3rem 0 0.3rem;
 height: 100%;
 display: grid;
