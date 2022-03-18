@@ -20,15 +20,18 @@ const StyledBoard = styled.div`
   max-width: 300px;
 `;
 
-function Board({word, current, guesses}) {
+function Board({word, guess, guesses}) {
 
   const rows = []
   for (let i = 0; i < 6; i++) {
     if (i <= guesses.length -1) {
+      // Rows with submitted guesses
       rows.push(<Row key={i} row={i} word={word} guess={guesses[i]} confirmed />)
     } else if (i === guesses.length) {
-      rows.push(<Row key={i} row={i} word={word} guess={current} />)
+      // Current guess row
+      rows.push(<Row key={i} row={i} word={word} guess={guess} />)
     } else {
+      // Empty rows
       rows.push(<Row key={i} row={i} word={word} guess="" />)
     }
   }

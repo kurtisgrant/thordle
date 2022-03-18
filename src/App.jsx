@@ -71,17 +71,18 @@ function App() {
     setCurGuess(prev => prev.slice(0, -1));
   };
   const submitGuess = () => {
-    const g = curGuess.toLowerCase();
-    if (g.length !== 5 || !scrabbleWords.includes(g)) return;
-    setGuesses(prev => [...prev, curGuess]);
+    const g = curGuess;
+    const gLower = g.toLowerCase();
+    if (g.length !== 5 || !scrabbleWords.includes(gLower)) return;
     setCurGuess('');
+    setGuesses(prev => [...prev, g]);
   };
 
 
   return (
     <StyledApp>
       <AppWrapper>
-        <Board {...{ word, guesses, current: curGuess }} />
+        <Board {...{ word, guesses, guess: curGuess }} />
         <Keyboard {...{ word, guesses, addLetter, removeLetter, submitGuess }} />
       </AppWrapper>
     </StyledApp>
