@@ -1,7 +1,7 @@
 import React from 'react';
 import Key from './Key';
 import styled from 'styled-components';
-import { ReactComponent as Backspace } from '../assets/backspace.svg';
+import { ReactComponent as Backspace } from '../assets/delete.svg';
 
 const KeyRowWrapper = styled.div`
 display: flex;
@@ -51,7 +51,7 @@ function Keyboard({ word, guesses, addLetter, removeLetter, submitGuess }) {
       <KeyRowWrapper>
         <Key onClick={submitGuess} wide style={{fontSize: '0.9rem'}}>ENTER</Key>
         {keyRows[2]}
-        <Key onClick={removeLetter} wide><Backspace style={{width: '2rem'}}/></Key>
+        <Key onClick={removeLetter} wide><Backspace /></Key>
       </KeyRowWrapper>
     </StyledKeyboard>
   );

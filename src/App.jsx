@@ -4,6 +4,7 @@ import Board from './Components/Board';
 import styled from 'styled-components';
 import words5 from './data/962-5-letter-words';
 import scrabbleWords from './data/172820-scrabble-words';
+import Navbar from './Components/Navbar';
 
 const StyledApp = styled.div`
   width: 100vw;
@@ -17,12 +18,12 @@ const StyledApp = styled.div`
 `;
 
 const AppWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
   width: 100%;
   height: 100%;
   max-height: 900px;
   max-width: 500px;
-  display: flex;
-  flex-direction: column;
   // justify-content: space-around;
   align-items: center;
 `;
@@ -82,6 +83,7 @@ function App() {
   return (
     <StyledApp>
       <AppWrapper>
+        <Navbar />
         <Board {...{ word, guesses, guess: curGuess }} />
         <Keyboard {...{ word, guesses, addLetter, removeLetter, submitGuess }} />
       </AppWrapper>
