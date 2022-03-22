@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import { motion } from 'framer-motion';
 
 const StyledItem = styled.li`
   width: calc(var(--nav-size) * 0.8);
@@ -8,7 +9,7 @@ const StyledItem = styled.li`
   justify-content: center;
 `;
 
-const StyledLink = styled.a`
+const StyledLink = styled(motion.a)`
   --button-size: calc(var(--nav-size) * 0.5);
   width: var(--button-size);
   height: var(--button-size);
@@ -26,7 +27,6 @@ const StyledLink = styled.a`
     filter: brightness(1.2);
   };
   svg {
-    fill: var(--text-color);
     stroke-width: 2.5;
     width: 1.3em;
     height: 1.3em;
@@ -34,11 +34,13 @@ const StyledLink = styled.a`
 `
 
 function NavItem(props) {
+  const [open, setOpen] = useState(false);
   return (
     <StyledItem>
-      <StyledLink>
+      <StyledLink  onClick={() => setOpen(!open)}>
         {props.icon}
       </StyledLink>
+      {open && props.children}
     </StyledItem>
   )
 }

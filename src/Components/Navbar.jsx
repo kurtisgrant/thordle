@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import NavItem from './NavItem';
 import {ReactComponent as Menu} from '../assets/menu.svg'
+import Dropdown from './Dropdown';
 
 const StyledNav = styled.nav`
 width: 100%;
@@ -19,10 +20,13 @@ const StyledList = styled.ul`
 `
 
 function Navbar() {
+
   return (
     <StyledNav>
       <StyledList>
-        <NavItem icon={<Menu />} />
+        <NavItem icon={<Menu />} >
+          <Dropdown />
+        </NavItem>
       </StyledList>
     </StyledNav>
   )

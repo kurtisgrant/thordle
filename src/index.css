@@ -1,9 +1,9 @@
 :root {
   --bg: #111;
-  --bg-accent: #444;
+  --bg-accent: #222;
   --text-color: #fefefe;
   --nav-size: 60px;
-  --border: 1px solid #444;
+  --border: 2px solid #444;
   --border-radius: 4px;
   --speed: 500ms;
 }
