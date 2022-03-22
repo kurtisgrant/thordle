@@ -2,21 +2,21 @@ import React, { useEffect, useState } from 'react';
 import Square from './Square';
 
 
-function Row({row, word, guess, confirmed}) {
+function Row({ row, word, guess, confirmed }) {
   // Unconfirmed (unused guesses)
   if (!confirmed) {
     const squares = Array(word.length)
-    .fill(undefined)
-    .map((e, i) => {
-      return <Square
-      key={`${row}-${i}`}
-      letter={guess[i] || ''}
-      state='guessing'
-      />
-    })
-    return <>{squares}</>
+      .fill(undefined)
+      .map((e, i) => {
+        return <Square
+          key={`${row}-${i}`}
+          letter={guess[i] || ''}
+          state='guessing'
+        />;
+      });
+    return <>{squares}</>;
   }
-  
+
   // Confirmed guesses
   const squares = [];
   const states = Array(word.length).fill('absent');

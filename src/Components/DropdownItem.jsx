@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import styled from 'styled-components';
 
 const StyledLink = styled.a`
@@ -32,11 +32,11 @@ const StyledIconLeft = styled.span`
     width: 1.3em;
     height: 1.3em;
   }
-`
+`;
 
 const StyledIconRight = styled.span`
 margin-left: auto;
-`
+`;
 
 function DropdownItem(props) {
   return (
@@ -45,7 +45,7 @@ function DropdownItem(props) {
       {props.children}
       <StyledIconRight>{props.rightIcon}</StyledIconRight>
     </StyledLink>
-  )
+  );
 }
 
-export default DropdownItem
+export default DropdownItem;

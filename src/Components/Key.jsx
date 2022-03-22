@@ -9,7 +9,7 @@ const colorMapping = {
 
 const StyledKey = styled.div`
 background-color: ${props => colorMapping[props.state] || '#888888'};
-color: var(--text-color);
+color: #fff;
 font-weight: bold;
 border-radius: .4em;
 width: ${props => props.wide ? '3rem;' : '1.5rem;'};
@@ -19,17 +19,14 @@ display: grid;
 place-items: center;
 cursor: pointer;
 user-select: none;
-&:hover { opacity: 0.8; };
-svg {
-  stroke: var(--text-color);
-  stroke-width: 2.2;
-  width: 1.5em;
-  height: 1.5em;
-}
+&:hover { opacity: 0.8; }
 `;
 
 function Key(props) {
   const content = props.children;
+  const onClick = () => console.log('Key Pressed: ' + content);
+
+
   return (
     <StyledKey {...props}>{content}</StyledKey>
   );

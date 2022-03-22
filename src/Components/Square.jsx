@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import {motion} from 'framer-motion'
+import { motion } from 'framer-motion';
 
 const colorMap = {
   guessing: '#888888',
@@ -21,12 +21,12 @@ const StyledSquare = styled(motion.div)`
   user-select: none;
   ${props => {
     if (props.state !== 'guessing') return;
-    return `border: ${props.letter ? '#ffffff60' : '#ffffff30'} solid 2px;`
-    }
+    return `border: ${props.letter ? '#ffffff60' : '#ffffff30'} solid 2px;`;
+  }
   };
   ${props => {
     if (props.state === 'guessing') return;
-    return `background-color: ${colorMap[props.state]};`
+    return `background-color: ${colorMap[props.state]};`;
   }};
 `;
 
@@ -35,15 +35,15 @@ function Square(props) {
 
   useEffect(() => {
     if (props.letter?.length) {
-      setTransformY(-3)
-      setTimeout(() => setTransformY(0), 100)
+      setTransformY(-3);
+      setTimeout(() => setTransformY(0), 100);
     }
-  }, [props.letter])
+  }, [props.letter]);
 
   return (
-    <StyledSquare 
-    {...props}
-    animate={{ y: transformY }}
+    <StyledSquare
+      {...props}
+      animate={{ y: transformY }}
     >{props.letter?.toUpperCase()}</StyledSquare>
   );
 }

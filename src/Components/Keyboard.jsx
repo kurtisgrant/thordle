@@ -49,7 +49,7 @@ function Keyboard({ word, guesses, addLetter, removeLetter, submitGuess }) {
       <KeyRowWrapper>{keyRows[0]}</KeyRowWrapper>
       <KeyRowWrapper>{keyRows[1]}</KeyRowWrapper>
       <KeyRowWrapper>
-        <Key onClick={submitGuess} wide style={{fontSize: '0.9rem'}}>ENTER</Key>
+        <Key onClick={submitGuess} wide style={{ fontSize: '0.9rem' }}>ENTER</Key>
         {keyRows[2]}
         <Key onClick={removeLetter} wide><Backspace /></Key>
       </KeyRowWrapper>

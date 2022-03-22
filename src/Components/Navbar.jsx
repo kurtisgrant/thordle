@@ -1,7 +1,7 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from 'react';
+import styled from 'styled-components';
 import NavItem from './NavItem';
-import {ReactComponent as Menu} from '../assets/menu.svg'
+import { ReactComponent as Menu } from '../assets/menu.svg';
 import Dropdown from './Dropdown';
 
 const StyledNav = styled.nav`
@@ -17,7 +17,7 @@ const StyledList = styled.ul`
   height: 100%;
   display: flex;
   justify-content: flex-end;
-`
+`;
 
 function Navbar() {
 
@@ -29,7 +29,7 @@ function Navbar() {
         </NavItem>
       </StyledList>
     </StyledNav>
-  )
+  );
 }
 
-export default Navbar
+export default Navbar;

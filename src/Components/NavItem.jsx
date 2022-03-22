@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const StyledItem = styled.li`
   width: calc(var(--nav-size) * 0.8);
@@ -13,7 +13,7 @@ const StyledLink = styled(motion.a)`
   --button-size: calc(var(--nav-size) * 0.5);
   width: var(--button-size);
   height: var(--button-size);
-  background-color: var(--bg);
+  background-color: var(--bg-accent);
   border: 1px solid #333;
   border-radius: 50%;
   padding: 5px;
@@ -30,19 +30,21 @@ const StyledLink = styled(motion.a)`
     stroke-width: 2.5;
     width: 1.3em;
     height: 1.3em;
-  }
-`
+  };
+`;
 
 function NavItem(props) {
   const [open, setOpen] = useState(false);
   return (
     <StyledItem>
-      <StyledLink  onClick={() => setOpen(!open)}>
+      <StyledLink onClick={() => setOpen(!open)}>
         {props.icon}
       </StyledLink>
-      {open && props.children}
+      <AnimatePresence>
+        {open && props.children}
+      </AnimatePresence>
     </StyledItem>
-  )
+  );
 }
 
-export default NavItem
+export default NavItem;

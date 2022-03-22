@@ -40,7 +40,7 @@ function App() {
     // This sets proper page sizes for mobile browsers.
     const vh = window.innerHeight * 0.01;
     document.documentElement.style.setProperty('--vh', `${vh}px`);
-  }
+  };
   useEffect(() => {
     setAppHeight();
     window.onresize = setAppHeight;
