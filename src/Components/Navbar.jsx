@@ -14,6 +14,7 @@ border-bottom: var(--border);
 
 const StyledList = styled.ul`
   max-width: 100%;
+  margin-right: 0.4rem;
   height: 100%;
   display: flex;
   justify-content: flex-end;

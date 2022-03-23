@@ -13,7 +13,7 @@ const StyledLink = styled(motion.a)`
   --button-size: calc(var(--nav-size) * 0.5);
   width: var(--button-size);
   height: var(--button-size);
-  background-color: var(--bg-accent);
+  background-color: var(--dropdown-bg);
   border: 1px solid #333;
   border-radius: 50%;
   padding: 5px;
