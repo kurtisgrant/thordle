@@ -12,7 +12,7 @@ const StyledDropdown = styled(motion.div)`
   top: 58px;
   width: 300px;
   transform: translateX(-45%);
-  background-color: var(--bg);
+  background-color: var(--dropdown-bg);
   border: var(--border);
   border-radius: var(--border-radius);
   padding: 1rem;

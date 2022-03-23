@@ -13,6 +13,11 @@ justify-content: center;
 align-items: center;
 flex-direction: row;
 gap: 3px;
+svg {
+    stroke-width: 2.5;
+    width: 1.6em;
+    height: 1.6em;
+  };
 `;
 const StyledKeyboard = styled.div`
 display: flex;

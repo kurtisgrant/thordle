@@ -1,5 +1,6 @@
 :root {
-  --bg: #111111ee;
+  --bg: #111111;
+  --dropdown-bg: #161616;
   --bg-accent: #222;
   --text-color: #fefefe;
   --nav-size: 60px;
