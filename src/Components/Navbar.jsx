@@ -25,6 +25,7 @@ function Navbar() {
   return (
     <StyledNav>
       <StyledList>
+        <div style={{ fontSize: '1.5rem', fontWeight: 900, alignSelf: 'center' }}>Thordle *Work in Progress*</div>
         <NavItem icon={<Menu />} >
           <Dropdown />
         </NavItem>
