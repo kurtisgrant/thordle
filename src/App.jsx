@@ -82,8 +82,8 @@ function App() {
 
   return (
     <StyledApp>
-      <AppWrapper>
         <Navbar />
+      <AppWrapper>
         <Board {...{ word, guesses, guess: curGuess }} />
         <Keyboard {...{ word, guesses, addLetter, removeLetter, submitGuess }} />
       </AppWrapper>
