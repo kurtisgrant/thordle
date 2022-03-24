@@ -24,7 +24,7 @@ display: flex;
 padding: 0 0 1rem 0;
 flex: 1;
 max-height: 12rem;
-width: 100%;
+/* width: 100%; */
 flex-direction: column;
 align-items: center;
 justify-content: flex-end;

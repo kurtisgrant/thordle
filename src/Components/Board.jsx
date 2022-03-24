@@ -7,6 +7,8 @@ const BoardWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  min-width: 300px;
+  margin: 0 1rem;
   width: 100%;
   flex: 1.5;
 `;

@@ -22,17 +22,29 @@ const AppWrapper = styled.div`
   flex-direction: column;
   width: 100%;
   height: 100%;
-  max-height: 900px;
-  max-width: 500px;
-  // justify-content: space-around;
+  /* max-width: 500px; */
   align-items: center;
 `;
 
+const BoardWrapper = styled.div`
+width: 100%;
+display: flex;
+max-height: calc(var(--vh, 1vh) * 60);
+overflow-x: scroll;
+scrollbar-width: none;
+&::-webkit-scrollbar {
+    width: 0 !important
+  }
+`;
+
 function App() {
-  const [guesses, setGuesses] = useState([]);
+  const [allGuesses, setAllGuesses] = useState([]);
   const [curGuess, setCurGuess] = useState('');
-  const [word, setWord] = useState(
-    words5[Math.floor(Math.random() * words5.length)].toUpperCase()
+  const [curBoard, setCurBoard] = useState(0);
+  const [words, setWords] = useState(
+    getRandomFromArr(words5) +
+    getRandomFromArr(words5) +
+    getRandomFromArr(words5)
   );
 
   const setAppHeight = () => {
@@ -41,6 +53,7 @@ function App() {
     const vh = window.innerHeight * 0.01;
     document.documentElement.style.setProperty('--vh', `${vh}px`);
   };
+
   useEffect(() => {
     setAppHeight();
     window.onresize = setAppHeight;
@@ -64,7 +77,7 @@ function App() {
   };
 
   const addLetter = letter => {
-    if (curGuess.length >= 5) return;
+    if (curGuess.length >= 15) return;
     setCurGuess(prev => prev + letter.toUpperCase());
   };
   const removeLetter = () => {
@@ -74,21 +87,43 @@ function App() {
   const submitGuess = () => {
     const g = curGuess;
     const gLower = g.toLowerCase();
-    if (g.length !== 5 || !scrabbleWords.includes(gLower)) return;
+    if (g.length !== 15 || !scrabbleWords.includes(gLower)) return;
     setCurGuess('');
-    setGuesses(prev => [...prev, g]);
+    setAllGuesses(prev => [...prev, g]);
   };
+
+
+  const boards = [0, 1, 2].map(i => {
+    const startInd = i * 5;
+    const endInd = startInd + 5;
+    const word = words.slice(startInd, endInd);
+    const guess = curGuess.slice(startInd, endInd);
+    const guesses = allGuesses.map(guess => guess.slice(startInd, endInd));
+    const key = i;
+    return <Board {...{key, word, guesses, guess }} />
+  });
+
+  const keyGuesses = ['hello', 'array'];
+  const keyWord = words.slice(curBoard * 5, 5 + curBoard * 5);
 
 
   return (
     <StyledApp>
         <Navbar />
       <AppWrapper>
-        <Board {...{ word, guesses, guess: curGuess }} />
-        <Keyboard {...{ word, guesses, addLetter, removeLetter, submitGuess }} />
+        <BoardWrapper>
+          { boards }
+        </BoardWrapper>
+        <Keyboard {...{ word: keyWord, guesses: keyGuesses, addLetter, removeLetter, submitGuess }} />
       </AppWrapper>
     </StyledApp>
   );
 }
 
 export default App;
+
+function getRandomFromArr(array) {
+  const word = array[Math.floor(Math.random() * array.length)].toUpperCase();
+  console.log(word);
+  return word
+}
