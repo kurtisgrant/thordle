@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import Keyboard from './Components/Keyboard';
 import Board from './Components/Board';
 import styled from 'styled-components';
+import { motion } from 'framer-motion';
 import words5 from './data/962-5-letter-words';
 import scrabbleWords from './data/172820-scrabble-words';
 import Navbar from './Components/Navbar';
@@ -20,15 +21,17 @@ const StyledApp = styled.div`
 const AppWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  margin: 1rem;
   width: 100%;
   height: 100%;
-  /* max-width: 500px; */
   align-items: center;
 `;
 
-const BoardWrapper = styled.div`
+const BoardWrapper = styled(motion.div)`
+position: relative;
 width: 100%;
 display: flex;
+gap: 2rem;
 max-height: calc(var(--vh, 1vh) * 60);
 overflow-x: scroll;
 scrollbar-width: none;
@@ -37,15 +40,12 @@ scrollbar-width: none;
   }
 `;
 
+const words = getWords(words5);
+
 function App() {
   const [allGuesses, setAllGuesses] = useState([]);
   const [curGuess, setCurGuess] = useState('');
   const [curBoard, setCurBoard] = useState(0);
-  const [words, setWords] = useState(
-    getRandomFromArr(words5) +
-    getRandomFromArr(words5) +
-    getRandomFromArr(words5)
-  );
 
   const setAppHeight = () => {
     // Set CSS vh variable to window innerheight. 
@@ -78,6 +78,10 @@ function App() {
 
   const addLetter = letter => {
     if (curGuess.length >= 15) return;
+    if ([5, 10].includes(curGuess.length)) {
+      const lastWord = curGuess.slice(-5).toLowerCase();
+      if (!scrabbleWords.includes(lastWord)) return; 
+    }
     setCurGuess(prev => prev + letter.toUpperCase());
   };
   const removeLetter = () => {
@@ -85,11 +89,11 @@ function App() {
     setCurGuess(prev => prev.slice(0, -1));
   };
   const submitGuess = () => {
-    const g = curGuess;
-    const gLower = g.toLowerCase();
-    if (g.length !== 15 || !scrabbleWords.includes(gLower)) return;
+    const guessWords = curGuess.match(/.{1,5}/g).map(w => w.toLowerCase());
+    if (curGuess.length !== 15) return;
+    if (guessWords.some(w => !scrabbleWords.includes(w))) return;
     setCurGuess('');
-    setAllGuesses(prev => [...prev, g]);
+    setAllGuesses(prev => [...prev, curGuess]);
   };
 
 
@@ -100,7 +104,7 @@ function App() {
     const guess = curGuess.slice(startInd, endInd);
     const guesses = allGuesses.map(guess => guess.slice(startInd, endInd));
     const key = i;
-    return <Board {...{key, word, guesses, guess }} />
+    return <Board {...{ key, word, guesses, guess }} />;
   });
 
   const keyGuesses = ['hello', 'array'];
@@ -109,10 +113,12 @@ function App() {
 
   return (
     <StyledApp>
-        <Navbar />
+      <Navbar />
       <AppWrapper>
-        <BoardWrapper>
-          { boards }
+        <BoardWrapper
+          animate={{}}
+        >
+          {boards}
         </BoardWrapper>
         <Keyboard {...{ word: keyWord, guesses: keyGuesses, addLetter, removeLetter, submitGuess }} />
       </AppWrapper>
@@ -122,8 +128,11 @@ function App() {
 
 export default App;
 
-function getRandomFromArr(array) {
-  const word = array[Math.floor(Math.random() * array.length)].toUpperCase();
-  console.log(word);
-  return word
+function getWords(wordsArray) {
+  const words = [];
+  for (let i = 0; i < 3; i++) {
+    let word = wordsArray[Math.floor(Math.random() * wordsArray.length)].toUpperCase();
+    words.push(word);
+  }
+  return words.join('');
 }
