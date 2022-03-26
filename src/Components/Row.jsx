@@ -2,14 +2,15 @@ import React, { useEffect, useState } from 'react';
 import Square from './Square';
 
 
-function Row({ row, word, guess, confirmed }) {
+function Row({ boardIndex, rowIndex, answer, answers, submittedGuesses, guess, confirmed }) {
+
   // Unconfirmed (unused guesses)
   if (!confirmed) {
-    const squares = Array(word.length)
+    const squares = Array(answer.length)
       .fill(undefined)
       .map((e, i) => {
         return <Square
-          key={`${row}-${i}`}
+          key={`${boardIndex}-${rowIndex}-${i}`}
           letter={guess[i] || ''}
           state='guessing'
         />;
@@ -19,11 +20,11 @@ function Row({ row, word, guess, confirmed }) {
 
   // Confirmed guesses
   const squares = [];
-  const states = Array(word.length).fill('absent');
+  const states = Array(answer.length).fill('absent');
 
   // Set state for correct letters & 
   // create array of letters still not found
-  const lettersNotFoundFromWord = word.split('').filter((lett, i) => {
+  const lettersNotFoundFromWord = answer.split('').filter((lett, i) => {
     if (guess.length - 1 < i) return true;
     if (lett === guess[i]) {
       states[i] = 'confirmed';
@@ -34,14 +35,23 @@ function Row({ row, word, guess, confirmed }) {
 
   // Set state for letters out of place &
   // add square components to squares array
-  for (let i = 0; i < word.length; i++) {
+  for (let i = 0; i < answer.length; i++) {
     if (lettersNotFoundFromWord.includes(guess[i]) && states[i] === 'absent') {
       states[i] = 'present';
       const ind = lettersNotFoundFromWord.indexOf(guess[i]);
       lettersNotFoundFromWord[ind] = '';
     }
+    if (states[i] === 'absent') {
+      const elsewhere = answers.some((ans, ind) => {
+        const letterPresent = ans.includes(guess[i]);
+        if (letterPresent && !submittedGuesses[rowIndex][ind].includes(guess[i])) {
+          return true;
+        }
+      })
+      if (elsewhere) states[i] = 'elsewhere';
+    }
     squares.push(<Square
-      key={`${row}-${i}`}
+      key={rowIndex}
       letter={guess[i]}
       state={states[i]}
     />);
