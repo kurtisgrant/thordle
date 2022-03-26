@@ -21,26 +21,46 @@ const StyledBoard = styled.div`
   max-width: 300px;
 `;
 
-function Board({ word, guess, guesses }) {
+function Board(props) {
+  const { boardIndex, answer, answers, curGuesses, submittedGuesses } = props;
 
-  const rows = [];
-  for (let i = 0; i < 6; i++) {
-    if (i <= guesses.length - 1) {
-      // Rows with submitted guesses
-      rows.push(<Row key={i} row={i} word={word} guess={guesses[i]} confirmed />);
-    } else if (i === guesses.length) {
-      // Current guess row
-      rows.push(<Row key={i} row={i} word={word} guess={guess} />);
-    } else {
-      // Empty rows
-      rows.push(<Row key={i} row={i} word={word} guess="" />);
+  const curGuess = curGuesses[boardIndex];
+  const boardGuesses = submittedGuesses.map(g => g[boardIndex]);
+
+  const Rows = [0, 1, 2, 3, 4].map(rowIndex => {
+    let confirmed, guess = '';
+    console.log(boardIndex, rowIndex);
+
+    if (rowIndex <= boardGuesses.length - 1) {
+      console.log('row is submitted guess')
+      // If this row is a submitted guess
+      confirmed = true;
+      guess = boardGuesses[rowIndex] || '';
+      
+    } else if (rowIndex === boardGuesses.length) {
+      console.log('row is current guess', curGuess, boardGuesses.length)
+      // If this row is for current guesses
+      guess = curGuess;
     }
-  }
+
+    const rowProps = {
+      key: `${boardIndex}-${rowIndex}`,
+      answers,
+      answer,
+      guess,
+      submittedGuesses,
+      confirmed,
+      rowIndex,
+      boardIndex
+    };
+    console.log(rowProps);
+    return <Row {...rowProps} />;
+  });
 
   return (
     <BoardWrapper>
       <StyledBoard>
-        {rows}
+        {Rows}
       </StyledBoard>
     </BoardWrapper>
   );
