@@ -31,7 +31,8 @@ justify-content: flex-end;
 gap: 3px;
 `;
 
-function Keyboard({ word, guesses, addLetter, removeLetter, submitGuess }) {
+function Keyboard({ answers, submittedGuesses, guessing, addLetter, removeLetter, submitGuess }) {
+  const word = answers[guessing];
 
   const letterRows = ['QWERTYUIOP', 'ASDFGHJKL', 'ZXCVBNM'];
   const keyRows = [];
@@ -39,7 +40,7 @@ function Keyboard({ word, guesses, addLetter, removeLetter, submitGuess }) {
   for (let lRow of letterRows) {
     const keyRow = [];
     for (let letter of lRow) {
-      const state = getLetterState(letter, word, guesses);
+      const state = getLetterState(letter, word, submittedGuesses);
       keyRow.push(<Key
         key={letter}
         state={state}
