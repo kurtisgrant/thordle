@@ -7,7 +7,7 @@ const colorMap = {
   absent: '#555555',
   present: '#bf9f3b',
   confirmed: '#538d4e',
-  elsewhere: '#6E4656'
+  elsewhere: '#805285'
 };
 
 const StyledSquare = styled(motion.div)`

@@ -1,8 +1,5 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-// import { GameContextProvider } from './context/GameContext';
-// import { CurrentGuessContextProvider } from './context/CurrentGuessContext';
-// import { GameContext, GuessContext } from './helpers/contexts';
 import words5 from './data/962-5-letter-words';
 import scrabbleWords from './data/172820-scrabble-words';
 
@@ -49,7 +46,6 @@ function App() {
   // Game Context
   const [gameIsActive, setGameIsActive] = useState(true);
   const [submittedGuesses, setSubmittedGuesses] = useState([]);
-  // const gameContextValue = { answers, gameIsActive, setGameIsActive, submittedGuesses, setSubmittedGuesses };
 
   // Guess Context
   const [curGuesses, setCurGuesses] = useState(['', '', '']);
@@ -92,10 +88,10 @@ function App() {
     setCurGuesses(prev => {
       const newGuesses = [...prev];
       newGuesses[guessing] = prev[guessing] + letter;
+      console.log(newGuesses);
       return newGuesses;
     });
   };
-
 
   function removeLetter() {
     let curGuess = curGuesses[guessing];
@@ -122,22 +118,18 @@ function App() {
 
     // Do nothing if current guesses incomplete
     if (curGuessesStr.length !== answersStr.length) return 'Wrong number of letters';
-    log(1)
+
     // Do nothing if any words aren't valid
     if (curGuesses.some(w => !scrabbleWords.includes(w.toLowerCase()))) return 'Some word not valid';
-    log(2)
-    
+
     // If guesses are correct, end game
     if (curGuessesStr === answersStr) setGameIsActive(false);
-    log(3)
 
-    const guessesToSubmit = [...curGuesses]
-    setCurGuesses(['','','']);
+    setCurGuesses(['', '', '']);
     setSubmittedGuesses(prev => [...prev, curGuesses]);
     return 'Submitted';
   };
 
-  const guessContextValue = { curGuesses, guessing, addLetter, removeLetter, submitGuess };
 
   useEffect(() => {
     document.addEventListener('keydown', handleKeyPress);

@@ -29,16 +29,13 @@ function Board(props) {
 
   const Rows = [0, 1, 2, 3, 4].map(rowIndex => {
     let confirmed, guess = '';
-    console.log(boardIndex, rowIndex);
 
     if (rowIndex <= boardGuesses.length - 1) {
-      console.log('row is submitted guess')
       // If this row is a submitted guess
       confirmed = true;
       guess = boardGuesses[rowIndex] || '';
-      
+
     } else if (rowIndex === boardGuesses.length) {
-      console.log('row is current guess', curGuess, boardGuesses.length)
       // If this row is for current guesses
       guess = curGuess;
     }
@@ -53,7 +50,6 @@ function Board(props) {
       rowIndex,
       boardIndex
     };
-    console.log(rowProps);
     return <Row {...rowProps} />;
   });
 
