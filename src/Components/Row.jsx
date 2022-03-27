@@ -51,7 +51,7 @@ function Row({ boardIndex, rowIndex, answer, answers, submittedGuesses, guess, c
       if (elsewhere) states[i] = 'elsewhere';
     }
     squares.push(<Square
-      key={rowIndex}
+      key={`${boardIndex}-${rowIndex}-${i}`}
       letter={guess[i]}
       state={states[i]}
     />);
