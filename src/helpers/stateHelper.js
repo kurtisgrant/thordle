@@ -13,12 +13,7 @@ export default class GameState {
       .map((answer, boardIndex) => answer
         .split('')
         .map((letter, letterIndex) => {
-          return new AnswerState({
-            letter,
-            answer,
-            letterIndex,
-            boardIndex
-          });
+          return new AnswerState(letter, answer, letterIndex, boardIndex);
         })
       );
 
@@ -153,17 +148,17 @@ class Tile {
     this.state = 'absent'; // States: absent, elsewhere, present, correct
   }
   tileName() {
-    return `Tile B${this.boardIndex}-R${this.rowIndex}-L${letterIndex}`;
+    return `Tile B${this.boardIndex}-R${this.rowIndex}-L${this.letterIndex}`;
   }
 }
 
 class AnswerState {
-  constructor(props) {
-    this.letter = props.letter,
-      this.answer = props.answer,
-      this.letterIndex = props.letterIndex,
-      this.boardIndex = props.boardIndex,
-      this.knownState = 'unknown'; // unknown, hinted, presence, location
+  constructor(letter, answer, letterIndex, boardIndex) {
+    this.letter = letter;
+    this.answer = answer;
+    this.letterIndex = letterIndex;
+    this.boardIndex = boardIndex;
+    this.knownState = 'unknown'; // unknown, hinted, presence, location
   }
   know(state) {
     const prev = this.knownState;
