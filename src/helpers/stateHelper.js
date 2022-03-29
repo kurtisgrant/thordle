@@ -1,9 +1,9 @@
 
 
-class Game {
+export default class GameState {
   constructor(answers, guessRows) {
-    this.answers = answers;
     this.guessRows = guessRows;
+    this.alphaMap = makeAlphaMap(answers.length);
 
     // 2D Array of answer letters
     // for tracking what's known 
@@ -26,11 +26,19 @@ class Game {
     this.tiles = guessRows.map((guessRow, rowIndex) => {
       return guessRow.map((guess, boardIndex) => {
         return guess.split('').map((letter, letterIndex) => {
-          const answer = this.answers[boardIndex];
+          const answer = answers[boardIndex];
           return new Tile(letter, guess, answer, boardIndex, rowIndex, letterIndex);
         });
       });
     });
+
+    // Evaluate rows of guesses
+    for (let i = 0; i < guessRows.length; i++) {
+      this.evaluateGuessRow(i);
+    }
+
+    // Populate alpha map
+    this.populateAlphaMap();
   }
   evaluateGuessRow(rowIndex) {
 
@@ -91,15 +99,13 @@ class Game {
         if (tile.state !== 'absent') return;
 
         const foundElsewhere = answerLettsNotKnown
-          .flat()
+          .flat(10)
           .filter(aLett => (
             aLett.knownState === 'unknown' &&
             aLett.letter === guessLetter &&
             aLett.boardIndex !== bIndex));
 
         if (foundElsewhere.length) {
-
-          // console.log('In ELSEWHERE SETTING IF STATEMENT', foundElsewhere, tile);
           tile.state = 'elsewhere';
           foundElsewhere.forEach(aLett => aLett.know('hinted'));
         }
@@ -107,6 +113,29 @@ class Game {
 
     });
 
+  }
+  populateAlphaMap() {
+    const aMap = this.alphaMap;
+
+    const allTilesArr = this.tiles.flat(10);
+    for (let tile of allTilesArr) {
+      const tileLetter = tile.letter;
+      const letterStates = aMap.get(tileLetter);
+      if (['absent', 'elsewhere'].includes(tile.state)) {
+        letterStates[tile.boardIndex] = 'absent';
+      } else {
+        letterStates[tile.boardIndex] = tile.state;
+      }
+    }
+
+    const allAnswerStatesArr = this.answerStates.flat(10);
+    for (let answerState of allAnswerStatesArr) {
+      const answerLetter = answerState.letter;
+      const letterStates = aMap.get(answerLetter);
+      if (answerState.knownState === 'hinted') {
+        letterStates[answerState.boardIndex] = 'hinted';
+      }
+    }
   }
 
 }
@@ -158,25 +187,12 @@ class AnswerState {
   }
 }
 
-
-const answers = ['LIGHT', 'VISIT', 'GRAPE'];
-const submittedGuesses = [
-  ['REACT', 'PIOUS', 'STATE'],
-  ['SMART', 'TIMES', 'TRACE'],
-  ['FLINT', 'LISTS', 'GRAPE']
-];
-
-const gameState = new Game(answers, submittedGuesses);
-console.log('---------------------------------------------------------- 0');
-console.dir(gameState, { depth: null });
-console.log('---------------------------------------------------------- 1');
-
-gameState.evaluateGuessRow(0);
-console.dir(gameState, { depth: null });
-console.log('---------------------------------------------------------- 2');
-gameState.evaluateGuessRow(1);
-console.dir(gameState, { depth: null });
-console.log('---------------------------------------------------------- 3');
-gameState.evaluateGuessRow(2);
-console.dir(gameState, { depth: null });
-console.log('---------------------------------------------------------- 4');
+function makeAlphaMap(boards) {
+  const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  const aMap = new Map();
+  alphabet.split('').forEach(letter => {
+    const letterStates = new Array(boards).fill('unknown'); // States: unknown, absent, hinted, present, correct
+    aMap.set(letter, letterStates);
+  });
+  return aMap;
+}
