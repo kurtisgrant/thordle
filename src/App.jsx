@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import GameState from './helpers/stateHelper';
 import words5 from './data/962-5-letter-words';
 import scrabbleWords from './data/172820-scrabble-words';
 
@@ -32,24 +33,28 @@ console.log('answers: ', answers);
 
 function App() {
 
-  const setAppHeight = () => {
-    // Set CSS vh variable to window innerheight. 
-    // This sets proper page sizes for mobile browsers.
-    const vh = window.innerHeight * 0.01;
-    document.documentElement.style.setProperty('--vh', `${vh}px`);
-  };
-  useEffect(() => {
-    setAppHeight();
-    window.onresize = setAppHeight;
-  }, []);
-
   // Game Context
   const [gameIsActive, setGameIsActive] = useState(true);
   const [submittedGuesses, setSubmittedGuesses] = useState([]);
-
+  
+  const [tiles3D, setTiles3D] = useState([]);
+  const [alphaMap, setAlphaMap] = useState(new Map())
+  
   // Guess Context
   const [curGuesses, setCurGuesses] = useState(['', '', '']);
   const [guessing, setGuessing] = useState(0);
+  
+  function updateGameState() {
+    const gameState = new GameState(answers, submittedGuesses);
+    setTiles3D(gameState.tiles);
+    setAlphaMap(gameState.alphaMap);
+  }
+
+  useEffect(() => {
+    setAppHeight();
+    window.onresize = setAppHeight;
+    updateGameState();
+  }, []);
 
   useEffect(() => {
     for (let i = 0; i < answers.length; i++) {
@@ -59,6 +64,10 @@ function App() {
       }
     }
   }, [curGuesses]);
+
+  useEffect(() => {
+    updateGameState();
+  }, [submittedGuesses])
 
   function handleKeyPress(e) {
     if (!gameIsActive) return;
@@ -140,8 +149,8 @@ function App() {
     <StyledApp>
       <Navbar />
       <GameWrapper>
-        <GameBoards {...{ answers, submittedGuesses, curGuesses }} />
-        <Keyboard {...{ answers, submittedGuesses, guessing, addLetter, removeLetter, submitGuess }} />
+        <GameBoards {...{ answers, tiles3D, curGuesses }} />
+        <Keyboard {...{ answers, alphaMap, guessing, addLetter, removeLetter, submitGuess }} />
       </GameWrapper>
     </StyledApp>
   );
@@ -157,6 +166,13 @@ function getAnswers(wordsArray) {
   }
   return words;
 }
+
+function setAppHeight() {
+  // Set CSS vh variable to window innerheight. 
+  // This sets proper page sizes for mobile browsers.
+  const vh = window.innerHeight * 0.01;
+  document.documentElement.style.setProperty('--vh', `${vh}px`);
+};
 
 function log(name, thing = ' ') {
   console.log(`${name}: `, thing);
