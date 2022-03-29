@@ -97,7 +97,6 @@ function App() {
     setCurGuesses(prev => {
       const newGuesses = [...prev];
       newGuesses[guessing] = prev[guessing] + letter;
-      console.log(newGuesses);
       return newGuesses;
     });
   };

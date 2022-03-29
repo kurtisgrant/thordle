@@ -18,14 +18,17 @@ export default class GameState {
       );
 
     // Make 3D Array of tiles [guessRows [singleGuesses [letters] ] ]
-    this.tiles = guessRows.map((guessRow, rowIndex) => {
-      return guessRow.map((guess, boardIndex) => {
-        return guess.split('').map((letter, letterIndex) => {
-          const answer = answers[boardIndex];
-          return new Tile(letter, guess, answer, boardIndex, rowIndex, letterIndex);
+    this.tiles = [];
+    if (guessRows.length) {
+      this.tiles = guessRows.map((guessRow, rowIndex) => {
+        return guessRow.map((guess, boardIndex) => {
+          return guess.split('').map((letter, letterIndex) => {
+            const answer = answers[boardIndex];
+            return new Tile(letter, guess, answer, boardIndex, rowIndex, letterIndex);
+          });
         });
       });
-    });
+    }
 
     // Evaluate rows of guesses
     for (let i = 0; i < guessRows.length; i++) {

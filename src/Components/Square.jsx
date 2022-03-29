@@ -6,7 +6,7 @@ const colorMap = {
   guessing: '#888888',
   absent: '#555555',
   present: '#bf9f3b',
-  confirmed: '#538d4e',
+  correct: '#538d4e',
   elsewhere: '#805285'
 };
 

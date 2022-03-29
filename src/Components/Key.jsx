@@ -7,8 +7,16 @@ const colorMapping = {
   confirmed: '#538d4e'
 };
 
+const colorMapping2 = {
+  unknown: '#888888',
+  hinted: '#805285',
+  absent: '#444',
+  correct: '#538d4e',
+  present: '#bf9f3b'
+};
+
 const StyledKey = styled.div`
-background-color: ${props => colorMapping[props.state] || '#888888'};
+background-color: ${props => colorMapping2[props.state] || '#888888'};
 color: #fff;
 font-weight: bold;
 border-radius: .4em;
