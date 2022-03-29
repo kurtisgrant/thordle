@@ -12,13 +12,13 @@ class Game {
     this.answerStates = answers
       .map((answer, boardIndex) => answer
         .split('')
-        .map((letter, letterIndex) => { 
-          return new AnswerState({ 
-          letter, 
-          answer, 
-          letterIndex, 
-          boardIndex
-          }); 
+        .map((letter, letterIndex) => {
+          return new AnswerState({
+            letter,
+            answer,
+            letterIndex,
+            boardIndex
+          });
         })
       );
 
@@ -26,73 +26,101 @@ class Game {
     this.tiles = guessRows.map((guessRow, rowIndex) => {
       return guessRow.map((guess, boardIndex) => {
         return guess.split('').map((letter, letterIndex) => {
-          return new Tile(this, letter, boardIndex, rowIndex, letterIndex);
+          const answer = this.answers[boardIndex];
+          return new Tile(letter, guess, answer, boardIndex, rowIndex, letterIndex);
         });
       });
     });
   }
   evaluateGuessRow(rowIndex) {
 
-    
-    
     const guessRow = this.guessRows[rowIndex];
     const rowTiles = this.tiles[rowIndex];
-    
-    // Main guess loop
-    guessRow.forEach((guess, bIndex) => {
-      const gAnswerStates = this.answerStates[bIndex]
+
+    // Guess loop that marks correct & present tiles for each guess
+    const answerLettsNotKnown = guessRow.map((guess, bIndex) => {
 
       const guessTiles = rowTiles[bIndex];
-      // const aStates = rowAnswerStates[bIndex];
-      const answer = this.answers[bIndex];
+      const gAnswerStates = this.answerStates[bIndex];
 
       // Set state for correct letters & 
-      // create arrays of letters still not found
-      const unaccountedFor = gAnswerStates
+      // create array of letters still not found
+      let unaccountedFor = gAnswerStates
         .filter((aLetterObj, lIndex) => {
           const tile = guessTiles[lIndex];
 
           if (aLetterObj.letter === guess[lIndex]) {
             // Set answerLetter's state to confirmed and
             // don't include in lettersNotFoundFromWords
-            aLetterObj.knownState = 'location'
-            tile.state = 'correct'
+            aLetterObj.know('location');
+            tile.state = 'correct';
+
             return false;
           }
           return true;
         });
 
-      // Set state for letters out of place
+      // Set state for letters present but out of place
       guess.split('').forEach((guessLetter, lIndex) => {
         const tile = guessTiles[lIndex];
-        const letterUnaccountedFor = unaccountedFor.includes(guessLetter);
-        if (letterUnaccountedFor && aStates[lIndex] === 'hidden') {
-          aStates[lIndex] = 'present';
-          const foundIndex = unaccountedFor.indexOf(guessLetter);
-          unaccountedFor.splice(foundIndex, 1);
+        if (tile.state === 'correct') return;
+
+        const foundAnsLett = unaccountedFor.find(aLett => aLett.letter === guessLetter);
+
+        if (foundAnsLett) {
+          // Set answerLetter's state to present and
+          // remove from unaccountedFor
+          foundAnsLett.know('presence');
+          tile.state = 'present';
+          unaccountedFor.filter(aLett => aLett.letterIndex !== foundAnsLett.letterIndex);
+          return;
         }
+
       });
 
+      return unaccountedFor;
+    });
 
+    // Guess loop that marks tiles as elsewhere
+    guessRow.forEach((guess, bIndex) => {
+
+      const guessTiles = rowTiles[bIndex];
+
+      guess.split('').forEach((guessLetter, lIndex) => {
+        const tile = guessTiles[lIndex];
+        if (tile.state !== 'absent') return;
+
+        const foundElsewhere = answerLettsNotKnown
+          .flat()
+          .filter(aLett => (
+            aLett.knownState === 'unknown' &&
+            aLett.letter === guessLetter &&
+            aLett.boardIndex !== bIndex));
+
+        if (foundElsewhere.length) {
+
+          // console.log('In ELSEWHERE SETTING IF STATEMENT', foundElsewhere, tile);
+          tile.state = 'elsewhere';
+          foundElsewhere.forEach(aLett => aLett.know('hinted'));
+        }
+      });
 
     });
 
   }
-  getGuessWord(boardIndex, rowIndex) {
-    return this.tiles[rowIndex][boardIndex];
-  }
+
 }
 
 class Tile {
-  constructor(game, letter, boardIndex, rowIndex, letterIndex) {
-    this.game = game;
+  constructor(letter, guess, answer, boardIndex, rowIndex, letterIndex) {
     this.letter = letter;
+    this.answerLetter = answer[letterIndex];
     this.boardIndex = boardIndex;
     this.rowIndex = rowIndex;
     this.letterIndex = letterIndex;
 
-    this.answerWord = answers[boardIndex];
-    this.answerLetter = this.answerWord[letterIndex];
+    this.answer = answer;
+    this.guess = guess;
     this.state = 'absent'; // States: absent, elsewhere, present, correct
   }
   tileName() {
@@ -102,24 +130,24 @@ class Tile {
 
 class AnswerState {
   constructor(props) {
-    this.letter = props.letter, 
-    this.answer = props.answer, 
-    this.letterIndex = props.letterIndex, 
-    this.boardIndex = props.boardIndex, 
-    this.knownState = 'unknown' // unknown, hinted, presence, location
+    this.letter = props.letter,
+      this.answer = props.answer,
+      this.letterIndex = props.letterIndex,
+      this.boardIndex = props.boardIndex,
+      this.knownState = 'unknown'; // unknown, hinted, presence, location
   }
   know(state) {
     const prev = this.knownState;
     if (state === 'hinted') {
 
       if (['location', 'presence'].includes(prev)) return;
-      this.knownState = 'hinted'
+      this.knownState = 'hinted';
 
     } else if (state === 'presence') {
 
       if (prev === 'location') return;
       this.knownState = 'presence';
-      
+
     } else if (state === 'location') {
 
       this.knownState = 'location';
@@ -129,3 +157,26 @@ class AnswerState {
     }
   }
 }
+
+
+const answers = ['LIGHT', 'VISIT', 'GRAPE'];
+const submittedGuesses = [
+  ['REACT', 'PIOUS', 'STATE'],
+  ['SMART', 'TIMES', 'TRACE'],
+  ['FLINT', 'LISTS', 'GRAPE']
+];
+
+const gameState = new Game(answers, submittedGuesses);
+console.log('---------------------------------------------------------- 0');
+console.dir(gameState, { depth: null });
+console.log('---------------------------------------------------------- 1');
+
+gameState.evaluateGuessRow(0);
+console.dir(gameState, { depth: null });
+console.log('---------------------------------------------------------- 2');
+gameState.evaluateGuessRow(1);
+console.dir(gameState, { depth: null });
+console.log('---------------------------------------------------------- 3');
+gameState.evaluateGuessRow(2);
+console.dir(gameState, { depth: null });
+console.log('---------------------------------------------------------- 4');
