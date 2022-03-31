@@ -23,9 +23,11 @@ const StyledLink = styled(motion.a)`
   align-items: center;
   transition: filter 300ms;
   cursor: pointer;
-  &:hover {
-    filter: brightness(1.2);
-  };
+  @media (hover: hover) {
+    &:hover {
+        filter: brightness(1.2);
+    }
+  }
   svg {
     stroke-width: 2.5;
     width: 1.3em;

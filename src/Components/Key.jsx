@@ -27,7 +27,12 @@ display: grid;
 place-items: center;
 cursor: pointer;
 user-select: none;
-&:hover { opacity: 0.8; }
+/* &:hover { opacity: 0.8; } */
+@media (hover: hover) {
+    &:hover {
+        background-color: blue;
+    }
+}
 `;
 
 function Key(props) {

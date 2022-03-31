@@ -8,9 +8,11 @@ align-items: center;
 border-radius: var(--border-radius);
 transition: background var(--speed);
 padding: 0.5rem 1rem;
-&:hover {
-  background-color: var(--bg-accent);
-}
+@media (hover: hover) {
+  &:hover {
+      background-color: var(--bg-accent);
+    }
+  }
 `;
 
 const StyledIconLeft = styled.span`
