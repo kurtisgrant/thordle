@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 
 const colorMapping = {
@@ -30,18 +30,22 @@ user-select: none;
 /* &:hover { opacity: 0.8; } */
 @media (hover: hover) {
     &:hover {
-        background-color: blue;
+        opacity: 0.8;
     }
 }
 `;
 
 function Key(props) {
-  const content = props.children;
-  const onClick = () => console.log('Key Pressed: ' + content);
+  let content = props.children;
+  const touchType = (e) => {
+    console.log('hi');
+    e.preventDefault();
+    props.keyPress();
+  };
 
 
   return (
-    <StyledKey {...props}>{content}</StyledKey>
+    <StyledKey {...props} onTouchStart={(e) => touchType(e)} onClick={() => props.keyPress()}>{content}</StyledKey>
   );
 };
 
