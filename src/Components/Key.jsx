@@ -8,7 +8,7 @@ const colorMapping = {
 };
 
 const colorMapping2 = {
-  unknown: '#888888',
+  unknown: '#777',
   hinted: '#805285',
   absent: '#444',
   correct: '#538d4e',
@@ -16,7 +16,7 @@ const colorMapping2 = {
 };
 
 const StyledKey = styled.div`
-background-color: ${props => colorMapping2[props.state] || '#888888'};
+background-color: ${props => colorMapping2[props.state] || '#777'};
 color: #fff;
 font-weight: bold;
 border-radius: .4em;
@@ -27,7 +27,7 @@ display: grid;
 place-items: center;
 cursor: pointer;
 user-select: none;
-/* &:hover { opacity: 0.8; } */
+transition: background-color 900ms ease-out;
 @media (hover: hover) {
     &:hover {
         background-color: blue;

@@ -29,6 +29,7 @@ const GameWrapper = styled.div`
 `;
 
 const answers = getAnswers(words5);
+// const answers = ['PUFFY', 'SOLVE', 'LIGHT']
 console.log('answers: ', answers);
 
 function App() {
