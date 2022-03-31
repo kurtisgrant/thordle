@@ -87,6 +87,8 @@ export default class GameState {
       return unaccountedFor;
     });
 
+    // console.table('answerLettsNotKnown: ', answerLettsNotKnown); 
+
     // Guess loop that marks tiles as elsewhere
     guessRow.forEach((guess, bIndex) => {
 
@@ -99,9 +101,9 @@ export default class GameState {
         const foundElsewhere = answerLettsNotKnown
           .flat(10)
           .filter(aLett => (
-            aLett.knownState === 'unknown' &&
-            aLett.letter === guessLetter &&
-            aLett.boardIndex !== bIndex));
+            ['unknown', 'hinted'].includes(aLett.knownState) && // Letters from answers that are still unknown
+            aLett.letter === guessLetter && // Letters from answers that match the current guessed letter
+            aLett.boardIndex !== bIndex)); // Only letters from answers that are from the other two boards
 
         if (foundElsewhere.length) {
           tile.state = 'elsewhere';

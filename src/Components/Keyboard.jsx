@@ -31,9 +31,8 @@ justify-content: flex-end;
 gap: 3px;
 `;
 
-function Keyboard({ answers, alphaMap, submittedGuesses, guessing, addLetter, removeLetter, submitGuess }) {
+function Keyboard({ answers, alphaMap, guessing, addLetter, removeLetter, submitGuess }) {
   const word = answers[guessing];
-  console.log(alphaMap);
 
   const letterRows = ['QWERTYUIOP', 'ASDFGHJKL', 'ZXCVBNM'];
   const keyRows = [];
