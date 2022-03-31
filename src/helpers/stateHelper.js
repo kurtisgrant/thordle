@@ -87,29 +87,40 @@ export default class GameState {
       return unaccountedFor;
     });
 
-    // console.table('answerLettsNotKnown: ', answerLettsNotKnown); 
+    
 
     // Guess loop that marks tiles as elsewhere
     guessRow.forEach((guess, bIndex) => {
 
       const guessTiles = rowTiles[bIndex];
 
+      const hinted = [];
+      
       guess.split('').forEach((guessLetter, lIndex) => {
         const tile = guessTiles[lIndex];
         if (tile.state !== 'absent') return;
 
-        const foundElsewhere = answerLettsNotKnown
-          .flat(10)
-          .filter(aLett => (
-            ['unknown', 'hinted'].includes(aLett.knownState) && // Letters from answers that are still unknown
-            aLett.letter === guessLetter && // Letters from answers that match the current guessed letter
-            aLett.boardIndex !== bIndex)); // Only letters from answers that are from the other two boards
 
-        if (foundElsewhere.length) {
+        const found = answerLettsNotKnown.flat().find(aLett => {
+          if (aLett.letter !== guessLetter) return false;
+          if (aLett.boardIndex === bIndex) return false;
+          if (aLett.hintedThisGuess) return false;
+          if (!['unknown', 'hinted'].includes(aLett.knownState)) return false;
+          return true;
+        })
+
+        if (found) {
           tile.state = 'elsewhere';
-          foundElsewhere.forEach(aLett => aLett.know('hinted'));
+          found.know('hinted');
+          hinted.push(found);
+          
+          // Ensure this answer letter only leads to 
+          // one guess letter being highlighted as 'hinted'
+          found.hintedThisGuess = true;
         }
       });
+      // Reset 'hintedThisGuess' for next guess
+      hinted.forEach(aLett => aLett.hintedThisGuess = false);
 
     });
 
@@ -171,7 +182,6 @@ class AnswerState {
 
       if (['location', 'presence'].includes(prev)) return;
       this.knownState = 'hinted';
-
     } else if (state === 'presence') {
 
       if (prev === 'location') return;
@@ -184,6 +194,10 @@ class AnswerState {
     } else {
       console.error('Invalid state');
     }
+  }
+  clearHint() {
+    if (this.knownState !== 'hinted') return;
+    this.knownState = 'unknown';
   }
 }
 
