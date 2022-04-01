@@ -85,7 +85,7 @@ export default class GameState {
           // remove from unaccountedFor
           foundAnsLett.know('presence');
           tile.state = 'present';
-          unaccountedFor.filter(aLett => aLett.letterIndex !== foundAnsLett.letterIndex);
+          unaccountedFor = unaccountedFor.filter(aLett => aLett.letterIndex !== foundAnsLett.letterIndex);
           return;
         }
 
@@ -156,6 +156,8 @@ export default class GameState {
         case 'absent':
           if (prev === ( 'correct' || 'present' )) break;
           alphaStatesArr[tile.boardIndex] = 'absent';
+          if (alphaStatesArr.some(s => s === ('correct' || 'present' || 'hinted'))) break;
+          alphaStatesArr.fill('absent');
           break;
         case 'elsewhere':
           tilesLabelledElsewhere.push(tile);
