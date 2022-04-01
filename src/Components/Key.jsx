@@ -27,10 +27,12 @@ display: grid;
 place-items: center;
 cursor: pointer;
 user-select: none;
-transition: background-color 900ms ease-out;
+transition-property: background-color, opacity;
+transition-duration: 600ms;
+transition-timing-function: ease-out;
 @media (hover: hover) {
     &:hover {
-        background-color: blue;
+        opacity: 0.8;
     }
 }
 `;
