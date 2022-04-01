@@ -1,7 +1,14 @@
 
+type AlphaStates = ('unknown' | 'absent' | 'hinted' | 'present' | 'correct')
+type AnswerStates = ('unknown' | 'hinted' | 'presence' | 'location')
+type TileStates = ('absent' | 'elsewhere' | 'present' | 'correct')
 
 export default class GameState {
-  constructor(answers, guessRows) {
+  guessRows: string[][];
+  alphaMap: Map<string, AlphaStates[]>;
+  answerStates: AnswerState[][];
+  tiles: Tile[][][];
+  constructor(answers: string[], guessRows: string[][]) {
     this.guessRows = guessRows;
     this.alphaMap = makeAlphaMap(answers.length);
 
@@ -38,7 +45,7 @@ export default class GameState {
     // Populate alpha map
     this.populateAlphaMap();
   }
-  evaluateGuessRow(rowIndex) {
+  evaluateGuessRow(rowIndex: number) {
 
     const guessRow = this.guessRows[rowIndex];
     const rowTiles = this.tiles[rowIndex];
@@ -94,7 +101,7 @@ export default class GameState {
 
       const guessTiles = rowTiles[bIndex];
 
-      const hinted = [];
+      const hinted: AnswerState[] = [];
       
       guess.split('').forEach((guessLetter, lIndex) => {
         const tile = guessTiles[lIndex];
@@ -131,8 +138,10 @@ export default class GameState {
     const allTilesArr = this.tiles.flat(10);
     for (let tile of allTilesArr) {
       const tileLetter = tile.letter;
-      const letterStates = aMap.get(tileLetter);
-      if (['absent', 'elsewhere'].includes(tile.state)) {
+      const letterStates: AlphaStates[] | undefined = aMap.get(tileLetter);
+
+      if (typeof letterStates === 'undefined') continue;
+      if (tile.state === 'elsewhere' || tile.state === 'absent') {
         letterStates[tile.boardIndex] = 'absent';
       } else {
         letterStates[tile.boardIndex] = tile.state;
@@ -143,6 +152,7 @@ export default class GameState {
     for (let answerState of allAnswerStatesArr) {
       const answerLetter = answerState.letter;
       const letterStates = aMap.get(answerLetter);
+      if (typeof letterStates === 'undefined') continue;
       if (answerState.knownState === 'hinted') {
         letterStates[answerState.boardIndex] = 'hinted';
       }
@@ -152,7 +162,16 @@ export default class GameState {
 }
 
 class Tile {
-  constructor(letter, guess, answer, boardIndex, rowIndex, letterIndex) {
+  letter: string;
+  guess: string;
+  answer: string;
+  boardIndex: number;
+  rowIndex: number;
+  letterIndex: number;
+  answerLetter: string;
+  state: TileStates;
+
+  constructor(letter: string, guess: string, answer: string, boardIndex: number, rowIndex: number, letterIndex: number) {
     this.letter = letter;
     this.answerLetter = answer[letterIndex];
     this.boardIndex = boardIndex;
@@ -161,7 +180,7 @@ class Tile {
 
     this.answer = answer;
     this.guess = guess;
-    this.state = 'absent'; // States: absent, elsewhere, present, correct
+    this.state = 'absent';
   }
   tileName() {
     return `Tile B${this.boardIndex}-R${this.rowIndex}-L${this.letterIndex}`;
@@ -169,14 +188,22 @@ class Tile {
 }
 
 class AnswerState {
-  constructor(letter, answer, letterIndex, boardIndex) {
+  letter: string;
+  answer: string;
+  letterIndex: number;
+  boardIndex: number;
+  knownState: AnswerStates;
+  hintedThisGuess: boolean;
+
+  constructor(letter: string, answer: string, letterIndex: number, boardIndex: number) {
     this.letter = letter;
     this.answer = answer;
     this.letterIndex = letterIndex;
     this.boardIndex = boardIndex;
-    this.knownState = 'unknown'; // unknown, hinted, presence, location
+    this.knownState = 'unknown';
+    this.hintedThisGuess = false;
   }
-  know(state) {
+  know(state: AnswerStates): void {
     const prev = this.knownState;
     if (state === 'hinted') {
 
@@ -195,17 +222,17 @@ class AnswerState {
       console.error('Invalid state');
     }
   }
-  clearHint() {
+  clearHint(): void {
     if (this.knownState !== 'hinted') return;
     this.knownState = 'unknown';
   }
 }
 
-function makeAlphaMap(boards) {
+function makeAlphaMap(boards: number): Map<string, AlphaStates[]> {
   const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
   const aMap = new Map();
   alphabet.split('').forEach(letter => {
-    const letterStates = new Array(boards).fill('unknown'); // States: unknown, absent, hinted, present, correct
+    const letterStates = new Array(boards).fill('unknown'); 
     aMap.set(letter, letterStates);
   });
   return aMap;
