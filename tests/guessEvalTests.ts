@@ -2,7 +2,6 @@ import { expect } from 'chai';
 import evaluateGuessRow from '../src/helpers/evaluateGuessRow';
 export { }
 
-
 describe('Evaluate row of guesses', () => {
 
   it('should evaluate test cases properly', () => {
@@ -62,9 +61,11 @@ describe('Evaluate row of guesses', () => {
 
 function testCase(answers: string[], guesses: string[], expected: string[]) {
   const evals = evaluateGuessRow(answers, guesses);
-  console.log('\n\nAnswers: ', answers)
-  console.log('Guesses: ', guesses)
-  console.log('Evaluation: ', evals)
+  // console.log('\n\nAnswers: ', answers)
+  // console.log('Guesses: ', guesses)
+  // console.log('Evaluation: ', evals)
+
+
   expected.forEach((codedExpectation, bIndex) => {
     const answer = answers[bIndex];
     const guess = guesses[bIndex];
