@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import GameState from './helpers/stateHelper';
 import words5 from './data/962-5-letter-words';
 import scrabbleWords from './data/172820-scrabble-words';
 
@@ -39,15 +38,14 @@ function App() {
   // Game Context
   const [gameIsActive, setGameIsActive] = useState(true);
   const [submittedGuesses, setSubmittedGuesses] = useState([]);
-  
-  const [submittedGuessEvals, setSubmittedEvals] = useState([])
-  const [tiles3D, setTiles3D] = useState([]);
-  const [alphaMap, setAlphaMap] = useState(new Map())
-  
+
+  const [submittedGuessEvals, setSubmittedEvals] = useState([]);
+  const [alphaMap, setAlphaMap] = useState(new Map());
+
   // Guess Context
   const [curGuesses, setCurGuesses] = useState(['', '', '']);
   const [guessing, setGuessing] = useState(0);
-  
+
   function updateGameState() {
     const guessEvals = submittedGuesses.map(row => evaluateGuessRow(answers, row));
     const aMap = evaluateAlpha(submittedGuesses, guessEvals);
@@ -62,17 +60,21 @@ function App() {
   }, []);
 
   useEffect(() => {
-    for (let i = 0; i < answers.length; i++) {
-      if (curGuesses[i].length < answers[i].length) {
-        setGuessing(i);
-        break;
-      }
-    }
+
+    const newGuessing = curGuesses.findIndex((g, i) => (
+      g.length === answers[i].length) &&
+      !scrabbleWords.includes(curGuesses[i].toLowerCase()) ||
+      g.length < answers[i].length);
+    if (newGuessing === guessing) return;
+    if (newGuessing === answers.length) return;
+    if (newGuessing < 0) return;
+    setGuessing(newGuessing);
+
   }, [curGuesses]);
 
   useEffect(() => {
     updateGameState();
-  }, [submittedGuesses])
+  }, [submittedGuesses]);
 
   function handleKeyPress(e) {
     if (!gameIsActive) return;
@@ -87,6 +89,7 @@ function App() {
 
   function addLetter(letter) {
     const curGuess = curGuesses[guessing] || '';
+    if (curGuesses[guessing].length === answers[guessing].length) return;
 
     // Do nothing if all tiles are full
     if (curGuesses.join('').length >= answers.join('').length) return;
@@ -153,11 +156,11 @@ function App() {
     <StyledApp>
       <Navbar />
       <GameWrapper>
-        <GameBoards {...{ 
-          answers, 
-          submittedGuesses, 
-          submittedGuessEvals, 
-          curGuesses 
+        <GameBoards {...{
+          answers,
+          submittedGuesses,
+          submittedGuessEvals,
+          curGuesses
         }} />
         <Keyboard {...{ answers, alphaMap, guessing, addLetter, removeLetter, submitGuess }} />
       </GameWrapper>
