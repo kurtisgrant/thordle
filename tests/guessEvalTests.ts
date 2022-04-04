@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import evaluateGuessRow from '../src/helpers/evaluateGuessRow';
+import evaluateGuessRow from '../src/helpers/gameState/evaluateGuessRow';
 export { }
 
 describe('Evaluate row of guesses', () => {

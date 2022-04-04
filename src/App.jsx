@@ -6,8 +6,8 @@ import scrabbleWords from './data/172820-scrabble-words';
 import Navbar from './components/Navbar';
 import GameBoards from './components/GameBoards';
 import Keyboard from './components/Keyboard';
-import evaluateGuessRow from './helpers/evaluateGuessRow';
-import evaluateAlpha from './helpers/evaluateAlpha';
+import evaluateGuessRow from './helpers/gameState/evaluateGuessRow';
+import evaluateAlpha from './helpers/gameState/evaluateAlpha';
 
 const StyledApp = styled.div`
   width: 100vw;
