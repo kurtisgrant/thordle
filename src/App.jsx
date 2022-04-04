@@ -8,6 +8,7 @@ import GameBoards from './components/GameBoards';
 import Keyboard from './components/Keyboard';
 import evaluateGuessRow from './helpers/gameState/evaluateGuessRow';
 import evaluateAlpha from './helpers/gameState/evaluateAlpha';
+import randomWordsByDate from './helpers/randomWordsByDate';
 
 const StyledApp = styled.div`
   width: 100vw;
@@ -29,7 +30,8 @@ const GameWrapper = styled.div`
   align-items: center;
 `;
 
-const answers = getAnswers(words5);
+// const answers = getAnswers(words5);
+const answers = randomWordsByDate(words5);
 // const answers = ['TRAIN', 'STRAP', 'YIKES']
 console.log('answers: ', answers);
 
