@@ -7,7 +7,9 @@ const colorMap = {
   absent: '#555555',
   present: '#bf9f3b',
   correct: '#538d4e',
-  elsewhere: '#805285'
+  elsewhere: '#805285',
+  invald: '#888888',
+  invalidColor: '#FF4F4F'
 };
 
 const StyledSquare = styled(motion.div)`
@@ -20,9 +22,15 @@ const StyledSquare = styled(motion.div)`
   width: 100%;
   height: 55px;
   user-select: none;
+  transition-property: border, color;
+  transition-duration: 600ms;
+  transition-timing-function: ease-out;
   ${props => {
-    if (props.state !== 'guessing') return;
-    return `border: ${props.letter ? '#ffffff60' : '#ffffff30'} solid 2px;`;
+    if (props.state === 'guessing') {
+      return `border: ${props.letter ? '#ffffff60' : '#ffffff30'} solid 2px;`;
+    } else if (props.state === 'invalid') {
+      return `border: ${colorMap.invalidColor} solid 2px;`;
+    }
   }
   };
   ${props => {

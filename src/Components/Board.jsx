@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import scrabbleWords from '../data/172820-scrabble-words';
 import Row from './Row';
 
 const BoardWrapper = styled.div`
@@ -23,11 +24,24 @@ const StyledBoard = styled.div`
 
 function Board(props) {
   const { boardIndex, guesses, guessEvals, answer, curGuesses } = props;
+  const [invalid, setInvalid] = useState(false)
 
   const curGuess = curGuesses[boardIndex];
 
+  useEffect(() => {
+
+    if (curGuess.length === 5) {
+      const valid = scrabbleWords.includes(curGuess.toLowerCase());
+      if (!valid){
+        setInvalid(true);
+      }
+    } else {
+      if (invalid) setInvalid(false);
+    }
+  }, [curGuess])
+
   const Rows = [0, 1, 2, 3, 4].map(rowIndex => {
-    let confirmed, guess = '';
+    let confirmed, rowInvalid, guess = '';
 
     if (rowIndex <= guesses.length - 1) {
       // If this row is a submitted guess
@@ -36,6 +50,7 @@ function Board(props) {
     } else if (rowIndex === guesses.length) {
       // If this row is for current guesses
       guess = curGuess;
+      rowInvalid = invalid;
     }
 
     const rowProps = {
@@ -43,6 +58,7 @@ function Board(props) {
       sGuess: guesses[rowIndex],
       sGuessEval: guessEvals[rowIndex],
       answer,
+      invalid: rowInvalid,
       guess,
       confirmed,
       rowIndex,
