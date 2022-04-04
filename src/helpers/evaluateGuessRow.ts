@@ -1,5 +1,5 @@
 
-type TileEvaluation = ('absent' | 'elsewhere' | 'present' | 'correct');
+export type TileEvaluation = ('absent' | 'elsewhere' | 'present' | 'correct');
 
 export default function evaluateGuessRow(answers: string[], guesses: string[]): TileEvaluation[][] {
   const states: TileEvaluation[][] = answers.map(ans => ans.split('').map(char => 'absent'));

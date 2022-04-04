@@ -1,16 +1,19 @@
+import { TileEvaluation } from "./evaluateGuessRow";
 
-type TileEvaluation = ('absent' | 'elsewhere' | 'present' | 'correct');
-type AlphaEvaluation = ('unknown' | 'absent' | 'hinted' | 'present' | 'correct');
+export type AlphaEvaluation = ('unknown' | 'absent' | 'hinted' | 'present' | 'correct');
+export type AlphaMap = Map<string, AlphaEvaluation[]>;
 
-export default function evaluateAlpha(guessRows: string[][], guessEvals: TileEvaluation[][][]): Map<string, AlphaEvaluation[]> {
+export default function evaluateAlpha(
+  guessRows: string[][],
+  guessEvals: TileEvaluation[][][]
+): AlphaMap {
 
   const alphaMapKeyValsArray: [string, AlphaEvaluation[]][] =
-    'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-      .split('').map(letter => {
-        const letterStates = new Array(guessRows[0].length).fill('unknown');
-        return [letter, letterStates];
-      });
-  const aMap = new Map(alphaMapKeyValsArray);
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').map(letter => {
+      const letterStates: AlphaEvaluation[] = new Array(guessRows[0].length).fill('unknown');
+      return [letter, letterStates];
+    });
+  const aMap: AlphaMap = new Map(alphaMapKeyValsArray);
 
   const tilesLabelledElsewhere = [];
 
