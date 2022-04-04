@@ -22,26 +22,26 @@ const StyledBoard = styled.div`
 `;
 
 function Board(props) {
-  const { boardIndex, tiles2D, answer, curGuesses } = props;
+  const { boardIndex, guesses, guessEvals, answer, curGuesses } = props;
 
   const curGuess = curGuesses[boardIndex];
-  const boardGuesses = tiles2D;
 
   const Rows = [0, 1, 2, 3, 4].map(rowIndex => {
     let confirmed, guess = '';
 
-    if (rowIndex <= boardGuesses.length - 1) {
+    if (rowIndex <= guesses.length - 1) {
       // If this row is a submitted guess
       confirmed = true;
 
-    } else if (rowIndex === boardGuesses.length) {
+    } else if (rowIndex === guesses.length) {
       // If this row is for current guesses
       guess = curGuess;
     }
 
     const rowProps = {
       key: `${boardIndex}-${rowIndex}`,
-      tileObjs: boardGuesses[rowIndex],
+      sGuess: guesses[rowIndex],
+      sGuessEval: guessEvals[rowIndex],
       answer,
       guess,
       confirmed,
