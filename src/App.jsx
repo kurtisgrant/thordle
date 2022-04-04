@@ -28,8 +28,8 @@ const GameWrapper = styled.div`
   align-items: center;
 `;
 
-const answers = getAnswers(words5);
-// const answers = ['PUFFY', 'SOLVE', 'LIGHT']
+// const answers = getAnswers(words5);
+const answers = ['YOUNG', 'TREAT', 'RHYME']
 console.log('answers: ', answers);
 
 function App() {
