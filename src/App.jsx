@@ -7,6 +7,8 @@ import scrabbleWords from './data/172820-scrabble-words';
 import Navbar from './components/Navbar';
 import GameBoards from './components/GameBoards';
 import Keyboard from './components/Keyboard';
+import evaluateGuessRow from './helpers/evaluateGuessRow';
+import evaluateAlpha from './helpers/evaluateAlpha';
 
 const StyledApp = styled.div`
   width: 100vw;
@@ -29,7 +31,7 @@ const GameWrapper = styled.div`
 `;
 
 const answers = getAnswers(words5);
-// const answers = ['PUFFY', 'SOLVE', 'LIGHT']
+// const answers = ['TRAIN', 'STRAP', 'YIKES']
 console.log('answers: ', answers);
 
 function App() {
@@ -38,6 +40,7 @@ function App() {
   const [gameIsActive, setGameIsActive] = useState(true);
   const [submittedGuesses, setSubmittedGuesses] = useState([]);
   
+  const [submittedGuessEvals, setSubmittedEvals] = useState([])
   const [tiles3D, setTiles3D] = useState([]);
   const [alphaMap, setAlphaMap] = useState(new Map())
   
@@ -46,9 +49,10 @@ function App() {
   const [guessing, setGuessing] = useState(0);
   
   function updateGameState() {
-    const gameState = new GameState(answers, submittedGuesses);
-    setTiles3D(gameState.tiles);
-    setAlphaMap(gameState.alphaMap);
+    const guessEvals = submittedGuesses.map(row => evaluateGuessRow(answers, row));
+    const aMap = evaluateAlpha(submittedGuesses, guessEvals);
+    setSubmittedEvals(guessEvals);
+    setAlphaMap(aMap);
   }
 
   useEffect(() => {
@@ -149,7 +153,12 @@ function App() {
     <StyledApp>
       <Navbar />
       <GameWrapper>
-        <GameBoards {...{ answers, tiles3D, curGuesses }} />
+        <GameBoards {...{ 
+          answers, 
+          submittedGuesses, 
+          submittedGuessEvals, 
+          curGuesses 
+        }} />
         <Keyboard {...{ answers, alphaMap, guessing, addLetter, removeLetter, submitGuess }} />
       </GameWrapper>
     </StyledApp>
