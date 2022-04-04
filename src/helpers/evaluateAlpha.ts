@@ -10,7 +10,7 @@ export default function evaluateAlpha(
 
   const alphaMapKeyValsArray: [string, AlphaEvaluation[]][] =
     'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').map(letter => {
-      const letterStates: AlphaEvaluation[] = new Array(guessRows[0].length).fill('unknown');
+      const letterStates: AlphaEvaluation[] = new Array(3).fill('unknown');
       return [letter, letterStates];
     });
   const aMap: AlphaMap = new Map(alphaMapKeyValsArray);

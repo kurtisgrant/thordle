@@ -7,7 +7,7 @@ export default function evaluateGuessRow(answers: string[], guesses: string[]): 
 
   const remainingInAnswers = [];
 
-  for (let bIndex = 0; bIndex < answers.length; bIndex++) {
+  for (let bIndex = 0; bIndex < guesses.length; bIndex++) {
     const answer = answers[bIndex];
     const guess = guesses[bIndex];
     // console.log('\n\nouter loop: ', answer, guess);
@@ -37,7 +37,7 @@ export default function evaluateGuessRow(answers: string[], guesses: string[]): 
   }
 
 
-  for (let bIndex = 0; bIndex < answers.length; bIndex++) {
+  for (let bIndex = 0; bIndex < guesses.length; bIndex++) {
     const answer = answers[bIndex];
     const guess = guesses[bIndex];
 
