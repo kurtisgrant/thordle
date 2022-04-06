@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 
 export default function main(arr: string[]) {
 
-  const firstMsOfToday = dayjs().set('h', 0).set('m', 0).set('s', 0).set('ms', 0).subtract(1, 'week');
+  const firstMsOfToday = dayjs().set('h', 0).set('m', 0).set('s', 0).set('ms', 0);
 
   const generator = new RandomGen(firstMsOfToday.valueOf());
 
