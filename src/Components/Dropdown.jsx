@@ -55,7 +55,6 @@ function Dropdown(props) {
           >Trends</DropdownItem>
           <DropdownItem
             leftIcon={<Activity />}
-            rightIcon={<ChevronRight />}
           >Hello</DropdownItem>
         </ motion.div>
         }
@@ -75,8 +74,7 @@ function Dropdown(props) {
           >Back</DropdownItem>
           <DropdownItem
             leftIcon={<Activity />}
-            rightIcon={<ChevronRight />}
-          >Hello</DropdownItem>
+          >{props.answers.toString()}</DropdownItem>
         </ motion.div>
         }
 

@@ -1,14 +1,17 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import words5 from './data/962-5-letter-words';
-import scrabbleWords from './data/172820-scrabble-words';
+import dayjs from 'dayjs';
 
 import Navbar from './components/Navbar';
 import GameBoards from './components/GameBoards';
 import Keyboard from './components/Keyboard';
+
+import scrabbleWords from './data/172820-scrabble-words';
+import words5 from './data/962-5-letter-words';
+import useLocalStorage from './hooks/useLocalStorage';
+import randomWordsByDate from './helpers/randomWordsByDate';
 import evaluateGuessRow from './helpers/gameState/evaluateGuessRow';
 import evaluateAlpha from './helpers/gameState/evaluateAlpha';
-import randomWordsByDate from './helpers/randomWordsByDate';
 
 const StyledApp = styled.div`
   width: 100vw;
@@ -33,13 +36,9 @@ const GameWrapper = styled.div`
 // const answers = getAnswers(words5);
 const answers = randomWordsByDate(words5);
 // const answers = ['TRAIN', 'STRAP', 'YIKES']
-console.log('answers: ', answers);
 
 function App() {
 
-  // Game Context
-  const [gameIsActive, setGameIsActive] = useState(true);
-  const [submittedGuesses, setSubmittedGuesses] = useState([]);
 
   const [submittedGuessEvals, setSubmittedEvals] = useState([]);
   const [alphaMap, setAlphaMap] = useState(new Map());
@@ -48,7 +47,26 @@ function App() {
   const [curGuesses, setCurGuesses] = useState(['', '', '']);
   const [guessing, setGuessing] = useState(0);
 
+  const initialUserData = {
+    lastGameDate: null,
+    gamesWon: 0,
+    gamesLost: 0,
+    currentStreak: 0,
+    maxStreak: 0,
+    guessDistribution: [0, 0, 0, 0, 0],
+  };
+  const [userData, setUserData] = useLocalStorage('thordle-user-data', initialUserData);
+
+  const initialGameData = {
+    gameIsActive: true,
+    gameDate: dayjs().set('h', 0).set('m', 0).set('s', 0).set('ms', 0).valueOf(),
+    submittedGuesses: []
+  };
+  const [gameData, setGameData] = useLocalStorage('thordle-game-data', initialGameData);
+
+
   function updateGameState() {
+    const submittedGuesses = gameData.submittedGuesses;
     const guessEvals = submittedGuesses.map(row => evaluateGuessRow(answers, row));
     const aMap = evaluateAlpha(submittedGuesses, guessEvals);
     setSubmittedEvals(guessEvals);
@@ -62,7 +80,6 @@ function App() {
   }, []);
 
   useEffect(() => {
-
     const newGuessing = curGuesses.findIndex((g, i) => (
       g.length === answers[i].length) &&
       !scrabbleWords.includes(curGuesses[i].toLowerCase()) ||
@@ -76,10 +93,11 @@ function App() {
 
   useEffect(() => {
     updateGameState();
-  }, [submittedGuesses]);
+  }, [gameData.submittedGuesses]);
 
   function handleKeyPress(e) {
-    if (!gameIsActive) return;
+
+    if (!gameData.gameIsActive) return;
     if (65 <= e.keyCode && e.keyCode <= 90) {
       addLetter(e.key.toUpperCase());
     } else if (e.keyCode === 8) {
@@ -90,6 +108,7 @@ function App() {
   };
 
   function addLetter(letter) {
+
     const curGuess = curGuesses[guessing] || '';
     if (curGuesses[guessing].length === answers[guessing].length) return;
 
@@ -130,7 +149,6 @@ function App() {
   };
 
   function submitGuess() {
-    console.log('submitting guess');
     const curGuessesStr = curGuesses.join('');
     const answersStr = answers.join('');
 
@@ -140,12 +158,14 @@ function App() {
     // Do nothing if any words aren't valid
     if (curGuesses.some(w => !scrabbleWords.includes(w.toLowerCase()))) return 'Some word not valid';
 
-    // If guesses are correct, end game
-    if (curGuessesStr === answersStr) setGameIsActive(false);
-
     setCurGuesses(['', '', '']);
-    setSubmittedGuesses(prev => [...prev, curGuesses]);
-    return 'Submitted';
+    setGameData(prev => {
+      return {
+        ...prev,
+        submittedGuesses: [...prev.submittedGuesses, curGuesses],
+        gameIsActive: curGuessesStr !== answersStr
+      };
+    });
   };
 
 
@@ -156,11 +176,11 @@ function App() {
 
   return (
     <StyledApp>
-      <Navbar />
+      <Navbar answers={answers} />
       <GameWrapper>
         <GameBoards {...{
           answers,
-          submittedGuesses,
+          submittedGuesses: gameData.submittedGuesses,
           submittedGuessEvals,
           curGuesses
         }} />
