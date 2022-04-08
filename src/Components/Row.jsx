@@ -3,7 +3,7 @@ import scrabbleWords from '../data/172820-scrabble-words';
 import Square from './Square';
 
 
-function Row({ boardIndex, rowIndex, answer, sGuess, sGuessEval, guess, invalid, confirmed }) {
+function Row({ boardIndex, rowIndex, answer, guess, guessEval, invalid, confirmed }) {
 
   // Unconfirmed (unused guesses)
   if (!confirmed) {
@@ -25,14 +25,14 @@ function Row({ boardIndex, rowIndex, answer, sGuess, sGuessEval, guess, invalid,
   // Confirmed guesses
   const squares = [];
 
-  sGuess.split('').forEach((letter, lIndex) => {
-    const state = sGuessEval ? sGuessEval[lIndex] : 'absent'
+  guess.split('').forEach((letter, lIndex) => {
+    const state = guessEval ? guessEval[lIndex] : 'absent';
     squares.push(<Square
       key={`${boardIndex}-${rowIndex}-${lIndex}`}
       letter={letter}
       state={state}
     />);
-  })
+  });
 
   return (
     <>{squares}</>

@@ -31,8 +31,7 @@ justify-content: flex-end;
 gap: 3px;
 `;
 
-function Keyboard({ answers, alphaMap, guessing, addLetter, removeLetter, submitGuess }) {
-  const word = answers[guessing];
+function Keyboard({ alphaMap, curGuessInd, addLetter, removeLetter, submitGuess }) {
 
   const letterRows = ['QWERTYUIOP', 'ASDFGHJKL', 'ZXCVBNM'];
   const keyRows = [];
@@ -41,7 +40,7 @@ function Keyboard({ answers, alphaMap, guessing, addLetter, removeLetter, submit
     const keyRow = [];
     for (let letter of lRow) {
       const alphaLetter = alphaMap.get(letter);
-      const state = alphaLetter ? alphaLetter[guessing] : 'unknown';
+      const state = alphaLetter ? alphaLetter[curGuessInd] : 'unknown';
       keyRow.push(<Key
         key={letter}
         state={state}
@@ -62,32 +61,6 @@ function Keyboard({ answers, alphaMap, guessing, addLetter, removeLetter, submit
       </KeyRowWrapper>
     </StyledKeyboard>
   );
-}
-
-
-function getLetterState(lett, word, guesses) {
-  const letterIndicesInWord = [];
-  for (let i = 0; i < word.length; i++) {
-    if (word[i] === lett) {
-      letterIndicesInWord.push(i);
-    }
-  }
-
-  let used, present, confirmed;
-
-  for (let guess of guesses) {
-    if (guess.includes(lett)) used = true;
-    if (word.includes(lett) && used) present = true;
-
-    for (let location of letterIndicesInWord) {
-      if (guess[location] === lett) confirmed = true;
-    }
-  }
-
-  return confirmed ? 'confirmed' :
-    present ? 'present' :
-      used ? 'absent' :
-        'unused';
 }
 
 export default Keyboard;

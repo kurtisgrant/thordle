@@ -23,10 +23,10 @@ const StyledBoard = styled.div`
 `;
 
 function Board(props) {
-  const { boardIndex, guesses, guessEvals, answer, curGuesses } = props;
-  const [invalid, setInvalid] = useState(false)
+  const { boardIndex, bGuesses, bGuessEvals, answer, curGuesses } = props;
+  const [isInvalid, setInvalid] = useState(false)
 
-  const curGuess = curGuesses[boardIndex];
+  const curGuess = curGuesses[boardIndex]
 
   useEffect(() => {
 
@@ -36,30 +36,31 @@ function Board(props) {
         setInvalid(true);
       }
     } else {
-      if (invalid) setInvalid(false);
+      if (isInvalid) setInvalid(false);
     }
   }, [curGuess])
 
   const Rows = [0, 1, 2, 3, 4].map(rowIndex => {
-    let confirmed, rowInvalid, guess = '';
+    let confirmed, rowInvalid, rowGuess = '', rowEvals;
 
-    if (rowIndex <= guesses.length - 1) {
+    if (rowIndex <= bGuesses.length - 1) {
       // If this row is a submitted guess
       confirmed = true;
+      rowGuess = bGuesses[rowIndex];
+      rowEvals = bGuessEvals[rowIndex];
 
-    } else if (rowIndex === guesses.length) {
+    } else if (rowIndex === bGuesses.length) {
       // If this row is for current guesses
-      guess = curGuess;
-      rowInvalid = invalid;
+      rowGuess = curGuess;
+      rowInvalid = isInvalid;
     }
 
     const rowProps = {
       key: `${boardIndex}-${rowIndex}`,
-      sGuess: guesses[rowIndex],
-      sGuessEval: guessEvals[rowIndex],
+      guess: rowGuess,
+      guessEval: rowEvals,
       answer,
       invalid: rowInvalid,
-      guess,
       confirmed,
       rowIndex,
       boardIndex
