@@ -4,6 +4,8 @@ import useLocalStorage from './useLocalStorage';
 import useEvaluatedGameState from "./useEvaluatedGameState";
 import scrabbleWords from '../data/172820-scrabble-words';
 
+const GUESS_NUM = 5;
+
 const INIT_USER_DATA = {
   lastGameDate: null,
   gamesWon: 0,
@@ -38,6 +40,7 @@ export default function useGameLogic({ answers }) {
       g.length === answers[i].length) &&
       !scrabbleWords.includes(curGuesses[i].toLowerCase()) ||
       g.length < answers[i].length);
+
     if (newGuessInd === curGuessInd) return;
     if (newGuessInd === answers.length) return;
     if (newGuessInd < 0) return;
@@ -45,12 +48,38 @@ export default function useGameLogic({ answers }) {
 
   }, [curGuesses]);
 
+  // Changes to submitted guesses
+  useEffect(() => {
+    checkGameState();
+  }, [guesses]);
+
   function refreshGame() {
-    console.log('Refreshing...', dayjs().format('YYYY-MM-DDTHH:mm:ssZ[Z]'));
+    console.log('Refreshing...', dayjs().format('YYYY-MM-DD  hh:mm:ss A'));
   }
 
-  function endOfGame() {
-    console.log('end of game');
+  function checkGameState() {
+    console.log('Checking game state...');
+    const latestGuessRow = guesses[guesses.length - 1];
+    if (!latestGuessRow) return;
+
+    if (answers.every((a, i) => a === latestGuessRow[i])) {
+      gameWon();
+    } else if (guesses.length >= GUESS_NUM) {
+      gameOver();
+    }
+
+    function gameWon() {
+      console.log('Game has been won');
+      setGameData(prev => {
+        return { gameState: 'won', ...prev };
+      });
+    }
+    function gameOver() {
+      console.log('Game over');
+      setGameData(prev => {
+        return { gameState: 'lost', ...prev };
+      });
+    }
   }
 
   function addLetter(letter) {
