@@ -50,7 +50,7 @@ export default function useGameLogic({ answers }) {
 
   // Changes to submitted guesses
   useEffect(() => {
-    checkGameState();
+    checkGameStatus();
   }, [guesses]);
 
   function refreshGame() {
