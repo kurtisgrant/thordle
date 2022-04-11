@@ -18,12 +18,12 @@ function GameBoards(props) {
   return (
     <BoardsWrapper>
       {props.answers.map((answer, i) => {
-        const guesses = props.submittedGuesses.map(row => row[i]);
-        const guessEvals = props.submittedGuessEvals.map(row => row[i]);
+        const bGuesses = props.guesses?.map(row => row[i]) || [];
+        const bGuessEvals = props.guessEvals.map(row => row[i]);
         return <Board
           key={i}
           boardIndex={i}
-          {...{ answer, guesses, guessEvals, ...props }}
+          {...{ answer, bGuesses, bGuessEvals, ...props }}
         />;
       })}
     </BoardsWrapper>
