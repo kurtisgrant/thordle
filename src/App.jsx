@@ -37,13 +37,13 @@ function App() {
 
   const {
     addLetter, removeLetter, submitGuess, 
-    gameState, refreshGame,
+    gameStatus, refreshGame,
     guesses, guessEvals, alphaMap,
     curGuesses, curGuessInd
   } = useGameLogic({ answers });
 
   function handleKeyPress(e) {
-    if (gameState !== 'active') return;
+    if (gameStatus !== 'active') return;
     if (65 <= e.keyCode && e.keyCode <= 90) {
       addLetter(e.key.toUpperCase());
     } else if (e.keyCode === 8) {

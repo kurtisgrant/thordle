@@ -15,7 +15,7 @@ const INIT_USER_DATA = {
   guessDistribution: [0, 0, 0, 0, 0],
 };
 const INIT_GAME_DATA = {
-  gameState: 'active',
+  gameStatus: 'active',
   gameDate: dayjs().set('h', 0).set('m', 0).set('s', 0).set('ms', 0).valueOf(),
   guesses: []
 };
@@ -27,7 +27,7 @@ export default function useGameLogic({ answers }) {
 
   const [userData, setUserData] =
     useLocalStorage('thordle-user-data', INIT_USER_DATA);
-  const [{ gameState, gameDate, guesses }, setGameData] =
+  const [{ gameStatus, gameDate, guesses }, setGameData] =
     useLocalStorage('thordle-game-data', INIT_GAME_DATA);
 
   const { guessEvals, alphaMap } = useEvaluatedGameState(answers, guesses);
@@ -57,29 +57,19 @@ export default function useGameLogic({ answers }) {
     console.log('Refreshing...', dayjs().format('YYYY-MM-DD  hh:mm:ss A'));
   }
 
-  function checkGameState() {
-    console.log('Checking game state...');
+  function checkGameStatus() {
+    console.log('Checking game status...');
     const latestGuessRow = guesses[guesses.length - 1];
     if (!latestGuessRow) return;
 
     if (answers.every((a, i) => a === latestGuessRow[i])) {
-      gameWon();
+      console.log('Winner');
+      setGameData({ gameStatus: 'won', gameDate, guesses });
     } else if (guesses.length >= GUESS_NUM) {
-      gameOver();
+      console.log('Game over');
+      setGameData({ gameStatus: 'lost', gameDate, guesses });
     }
 
-    function gameWon() {
-      console.log('Game has been won');
-      setGameData(prev => {
-        return { gameState: 'won', ...prev };
-      });
-    }
-    function gameOver() {
-      console.log('Game over');
-      setGameData(prev => {
-        return { gameState: 'lost', ...prev };
-      });
-    }
   }
 
   function addLetter(letter) {
@@ -143,5 +133,5 @@ export default function useGameLogic({ answers }) {
     });
   };
 
-  return { addLetter, removeLetter, submitGuess, gameState, refreshGame, guesses, guessEvals, curGuesses, alphaMap, curGuessInd };
+  return { addLetter, removeLetter, submitGuess, gameStatus, refreshGame, guesses, guessEvals, curGuesses, alphaMap, curGuessInd };
 }
