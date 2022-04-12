@@ -7,7 +7,7 @@ import scrabbleWords from '../data/172820-scrabble-words';
 const GUESS_NUM = 5;
 
 const INIT_USER_DATA = {
-  lastGameDate: null,
+  lastWonGameDate: null,
   gamesWon: 0,
   gamesLost: 0,
   currentStreak: 0,
@@ -16,7 +16,7 @@ const INIT_USER_DATA = {
 };
 const INIT_GAME_DATA = {
   gameStatus: 'active',
-  gameDate: dayjs().set('h', 0).set('m', 0).set('s', 0).set('ms', 0).valueOf(),
+  gameDate: startOfToday(),
   guesses: []
 };
 
@@ -55,19 +55,82 @@ export default function useGameLogic({ answers }) {
 
   function refreshGame() {
     console.log('Refreshing...', dayjs().format('YYYY-MM-DD  hh:mm:ss A'));
+
+    // If today is a new day
+    if (gameDate !== startOfToday()) {
+      console.log('Clearing stale game data');
+      setGameData(INIT_GAME_DATA);
+
+      // End current streak if didn't get yesterday's puzzle
+      const yesterday = startOfToday().subtract(1, 'day').valueOf();
+      if (userData.currentStreak > 0 && yesterday !== userData.lastWonGameDate) {
+        setUserData(prevUserData => {
+          const finishedStreak = prevUserData.currentStreak;
+          const prevMaxStreak = prevUserData.maxStreak;
+          return {
+            ...prevUserData,
+            currentStreak: 0,
+            maxStreak: finishedStreak > prevMaxStreak ? finishedStreak : prevMaxStreak
+          };
+        });
+      }
+    }
   }
 
   function checkGameStatus() {
     console.log('Checking game status...');
+    if (gameStatus !== 'active') return;
     const latestGuessRow = guesses[guesses.length - 1];
     if (!latestGuessRow) return;
 
     if (answers.every((a, i) => a === latestGuessRow[i])) {
+      // Winning case
+
       console.log('Winner');
-      setGameData({ gameStatus: 'won', gameDate, guesses });
+      setGameData(prev => {
+        return {
+          ...prev,
+          gameStatus: 'won'
+        };
+      });
+      setUserData(prev => {
+
+        // Increment guess distribution value
+        const numGuesses = guesses.length;
+        const newGuessDistribution = [...prev.guessDistribution];
+        newGuessDistribution[numGuesses - 1]++;
+
+        // Adjust streaks
+        const newStreak = prev.currentStreak++;
+        const newMaxStreak = newStreak > prev.maxStreak ? newStreak : prev.maxStreak;
+
+        // Increment games won & update lastWonGameDate in return
+        return {
+          ...prev,
+          gamesWon: prev.gamesWon + 1,
+          lastWonGameDate: startOfToday(),
+          guessDistribution: newGuessDistribution,
+          currentStreak: newStreak,
+          maxStreak: newMaxStreak,
+        };
+      });
     } else if (guesses.length >= GUESS_NUM) {
+      // Losing case
+
       console.log('Game over');
-      setGameData({ gameStatus: 'lost', gameDate, guesses });
+      setGameData(prev => {
+        return {
+          ...prev,
+          gameStatus: 'lost'
+        }
+      })
+      setUserData(prev => {
+        return {
+          ...prev,
+          gamesLost: prev.gamesLost + 1,
+          currentStreak: 0
+        };
+      });
     }
 
   }
@@ -134,4 +197,8 @@ export default function useGameLogic({ answers }) {
   };
 
   return { addLetter, removeLetter, submitGuess, gameStatus, refreshGame, guesses, guessEvals, curGuesses, alphaMap, curGuessInd };
+}
+
+function startOfToday() {
+  return dayjs().set('h', 0).set('m', 0).set('s', 0).set('ms', 0).valueOf();
 }
