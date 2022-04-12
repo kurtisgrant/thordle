@@ -26,15 +26,15 @@ After each guess, the color of the tiles will change to show how close your gues
 - Framer Motion
 
 ### Todo: 
-***Most recent update: Apr 1, 2022***
+***Most recent update: Apr 11, 2022***
 - [X] Build react components for gameplay (board, keyboard, tiles, etc.).
 - [X] Setup game logic and conditional component rendering.
 - [X] Implement animations with Framer Motion.
 - [X] Add navbar with animated dropdown menu.
 - [X] Adjust game logic ()
 - [X] Deploy to thordle.com
-- [ ] Implement light/dark mode with switch in dropdown.
-- [ ] Implement local storage for game state.
+- [X] Implement daily puzzles rather than random on every refresh.
+- [X] Implement local storage for game state.
+- [X] Implement local storage for user game statistics.
 - [ ] Implement instructions & end-of-game modals.
-- [ ] Implement local storage for user game statistics.
-- [ ] Implement daily puzzles rather than random on every refresh.
+- [ ] Implement light/dark mode with switch in dropdown.
