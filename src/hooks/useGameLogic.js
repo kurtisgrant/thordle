@@ -101,7 +101,7 @@ export default function useGameLogic({ answers }) {
         newGuessDistribution[numGuesses - 1]++;
 
         // Adjust streaks
-        const newStreak = prev.currentStreak++;
+        const newStreak = prev.currentStreak + 1;
         const newMaxStreak = newStreak > prev.maxStreak ? newStreak : prev.maxStreak;
 
         // Increment games won & update lastWonGameDate in return
