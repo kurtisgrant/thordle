@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import evaluateGuessRow from '../src/helpers/gameState/evaluateGuessRow';
 export { }
 
-xdescribe('Evaluate row of guesses', () => {
+describe('Evaluate row of guesses', () => {
 
   it('should evaluate test cases properly', () => {
     testCase(

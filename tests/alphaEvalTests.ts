@@ -3,7 +3,7 @@ import evaluateGuessRow from '../src/helpers/gameState/evaluateGuessRow';
 import evaluateAlpha, { AlphaEvaluation, AlphaMap } from '../src/helpers/gameState/evaluateAlpha';
 export { }
 
-xdescribe('evaluate alpha possibilities', () => {
+describe('evaluate alpha possibilities', () => {
 
   const testAnswers = ['TRAIN', 'STRAP', 'YIKES'];
 
