@@ -16,7 +16,7 @@ const INIT_USER_DATA = {
 };
 const INIT_GAME_DATA = {
   gameStatus: 'active',
-  gameDate: startOfToday(),
+  gameDate: startOfToday().valueOf(),
   guesses: []
 };
 
@@ -57,7 +57,7 @@ export default function useGameLogic({ answers }) {
     console.log('Refreshing...', dayjs().format('YYYY-MM-DD  hh:mm:ss A'));
 
     // If today is a new day
-    if (gameDate !== startOfToday()) {
+    if (gameDate !== startOfToday().valueOf()) {
       console.log('Clearing stale game data');
       setGameData(INIT_GAME_DATA);
 
@@ -108,7 +108,7 @@ export default function useGameLogic({ answers }) {
         return {
           ...prev,
           gamesWon: prev.gamesWon + 1,
-          lastWonGameDate: startOfToday(),
+          lastWonGameDate: startOfToday().valueOf(),
           guessDistribution: newGuessDistribution,
           currentStreak: newStreak,
           maxStreak: newMaxStreak,
@@ -200,5 +200,5 @@ export default function useGameLogic({ answers }) {
 }
 
 function startOfToday() {
-  return dayjs().set('h', 0).set('m', 0).set('s', 0).set('ms', 0).valueOf();
+  return dayjs().set('h', 0).set('m', 0).set('s', 0).set('ms', 0);
 }
