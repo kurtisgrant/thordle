@@ -44,6 +44,21 @@ describe('Evaluate row of guesses', () => {
       ['ROUND', 'GRAPE', 'BRING'],
       ['ppppp', 'ppPpP', 'pPppp']
     )
+    // Guesses with two of a letter where the second 
+    // is correct, will result in the first being 
+    // evaluated as 'present' instead of 'absent' #17 
+    // (First 'E' in 'SEIZE' was evaluating as 'present')
+    testCase(
+      ['SLIDE', 'DEMON', 'SYRUP'],
+      ['SEIZE', 'ORDER', 'UPPER'],
+      ['ppppp', 'PpPPp', 'PPppP']
+    )
+    // (Second 'E' in 'REEVE' was evaluating as 'present')
+    testCase(
+      ['AGREE', 'SOLVE', 'TIGHT'],
+      ['REEVE', 'GOING', 'PLAIN'],
+      ['PPppp', 'ppppp', 'pppPp']
+    )
   })
   it('should evaluate "elsewhere" tiles properly', () => {
     testCase(
