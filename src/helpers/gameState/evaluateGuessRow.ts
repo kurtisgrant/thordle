@@ -7,6 +7,7 @@ export default function evaluateGuessRow(answers: string[], guesses: string[]): 
 
   const remainingInAnswers = [];
 
+  // Loop through guess/answers
   for (let bIndex = 0; bIndex < guesses.length; bIndex++) {
     const answer = answers[bIndex];
     const guess = guesses[bIndex];
@@ -14,25 +15,37 @@ export default function evaluateGuessRow(answers: string[], guesses: string[]): 
 
     const remainingInAnswer = answer.split('');
 
+    // Loop through letter indices labelling 'correct'
     for (let lIndex = 0; lIndex < answer.length; lIndex++) {
       const answerLetter = answer[lIndex];
       const guessLetter = guess[lIndex];
-      // console.log('\ninner loop: ', answerLetter, guessLetter);
+      // console.log('\ncorrect loop: ', answerLetter, guessLetter);
       // console.log('     rem: ', JSON.stringify(remainingInAnswer));
 
       if (answerLetter === guessLetter) {
         states[bIndex][lIndex] = 'correct';
         remainingInAnswer[lIndex] = '_'
-        // console.log('correct');
-      } else if (remainingInAnswer.includes(guessLetter)) {
+        // console.log('-correct');
+      }
+    }
+
+    // Loop through letter indices labelling 'present'
+    for (let lIndex = 0; lIndex < answer.length; lIndex++) {
+      const guessLetter = guess[lIndex];
+      const state = states[bIndex][lIndex];
+      // console.log('\npresent loop: ', answerLetter, guessLetter);
+      // console.log('     rem: ', JSON.stringify(remainingInAnswer));
+
+      if (remainingInAnswer.includes(guessLetter) && state === 'absent') {
         const location = remainingInAnswer.indexOf(guessLetter);
         states[bIndex][lIndex] = 'present'
         remainingInAnswer[location] = '_'
-        // console.log('present');
-      } else {
-        // console.log('absent');
+        // console.log('-present');
       }
     }
+
+    // console.log('EVAL: ', states[bIndex]);
+
     remainingInAnswers.push(remainingInAnswer);
   }
 
