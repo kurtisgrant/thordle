@@ -33,6 +33,7 @@ describe('evaluate alpha possibilities', () => {
   })
   it('should evaluate "hinted" alpha states properly', () => {
 
+    // Failed due to second "E" in "ELECT" overwriting the "hinted" alpha-state
     expectTheseAlphaStates(testAlphaMap1, 0, new Map([
       ['correct', ['T', 'R', 'A']],
       ['hinted', ['E', 'I']],
