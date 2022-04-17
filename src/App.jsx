@@ -5,6 +5,8 @@ import Navbar from './components/Navbar';
 import GameBoards from './components/GameBoards';
 import Keyboard from './components/Keyboard';
 
+import words5 from './data/962-5-letter-words';
+import randomWordsByDate from './helpers/randomWordsByDate';
 import useGameLogic from './hooks/useGameLogic';
 
 const StyledApp = styled.div`
