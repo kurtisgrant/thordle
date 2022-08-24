@@ -19,14 +19,18 @@ After each guess, the color of the tiles will change to show how close your gues
 **Purple** means the guessed letter is in a different word.
 
 ### Tech Stack:
-- React
+- **React**
   - Hooks & custom hooks
   - Context API
-- Styled Components
-- Framer Motion
+- **TypeScript**
+- **Unit Testing**
+  - Mocha
+  - Chai
+- **Styled Components**
+- **Framer Motion**
 
 ### Todo: 
-***Most recent update: Apr 11, 2022***
+***Most recent update: Aug 24, 2022***
 - [X] Build react components for gameplay (board, keyboard, tiles, etc.).
 - [X] Setup game logic and conditional component rendering.
 - [X] Implement animations with Framer Motion.
