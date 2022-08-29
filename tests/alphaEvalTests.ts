@@ -45,7 +45,7 @@ describe('evaluate alpha possibilities', () => {
       new Map([
         ['correct', ['T', 'R', 'A']],
         ['hinted', ['E', 'I']],
-        ['absent', ['H', 'L', 'C', 'M', 'T']]
+        ['absent', ['H', 'L', 'C', 'M']]
       ])
     )
 
