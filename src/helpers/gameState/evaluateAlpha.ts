@@ -77,7 +77,7 @@ export default function evaluateAlpha(
 
     alphaArr?.forEach((alphaEval, i) => {
       if (i === bIndex) return;
-      if (alphaEval !== 'unknown') return;
+      if (alphaEval == ('correct' || 'present')) return;
       alphaArr[i] = 'hinted';
     })
   })
