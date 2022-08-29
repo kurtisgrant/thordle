@@ -49,6 +49,17 @@ describe('evaluate alpha possibilities', () => {
       ])
     )
 
+    // Failed due to 'Hinted' alpha eval is overwriting 'Present'
+    testCase(
+      testAnswers,
+      [['TRASH', 'ELECT', 'STALL']],
+      2,
+      new Map([
+        ['present', ['S']],
+        ['hinted', ['E']]
+      ])
+    )
+
   })
 
 })
