@@ -55,9 +55,12 @@ export default function evaluateAlpha(
           // If ever an eval is 'absent', set the letter on this board to 'absent' unless it's already set to 'correct' or 'present'.
           // Also, if all boards for this letter are currently labelled 'absent' or 'unknown', set all boards to 'absent'. 
           case 'absent':
-            if (prev === ('correct' || 'present')) break;
+            if (prev === 'correct' || 
+            prev === 'present') break;
             alphaArr[bIndex] = 'absent';
-            if (alphaArr.some(s => s === ('correct' || 'present' || 'hinted'))) break;
+            if (alphaArr.some(s => s === 'correct' || 
+            s === 'present' ||
+            s === 'hinted')) break;
             alphaArr.fill('absent');
             break;
           // If ever an eval is 'elsewhere', add it to 'tilesLabelledElsewhere' to revisit it later.
@@ -77,7 +80,8 @@ export default function evaluateAlpha(
 
     alphaArr?.forEach((alphaEval, i) => {
       if (i === bIndex) return;
-      if (alphaEval == ('correct' || 'present')) return;
+      if (alphaEval === 'present' ||
+        alphaEval === 'correct') return;
       alphaArr[i] = 'hinted';
     })
   })
