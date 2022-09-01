@@ -196,7 +196,7 @@ export default function useGameLogic({ answers }) {
     });
   };
 
-  return { addLetter, removeLetter, submitGuess, gameStatus, refreshGame, guesses, guessEvals, curGuesses, alphaMap, curGuessInd };
+  return { addLetter, removeLetter, submitGuess, gameStatus, userData, refreshGame, guesses, guessEvals, curGuesses, alphaMap, curGuessInd };
 }
 
 function startOfToday() {

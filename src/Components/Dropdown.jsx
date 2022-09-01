@@ -47,20 +47,24 @@ function Dropdown(props) {
           exit={{ x: "-110%" }}
           onAnimationStart={calcHeight}
         >
-          <DropdownItem>My Profile</DropdownItem>
           <DropdownItem
             leftIcon={<TrendingUp />}
             rightIcon={<ChevronRight />}
-            click={() => setActiveMenu('trends')}
-          >Trends</DropdownItem>
+            click={() => setActiveMenu('answers')}
+          >Answers</DropdownItem>
           <DropdownItem
             leftIcon={<Activity />}
-          >Hello</DropdownItem>
+            click={() => props.openModal('stats')}
+          >My Stats</DropdownItem>
+          <DropdownItem
+            leftIcon={<Activity />}
+            click={() => props.openModal('instructions')}
+          >Instructions</DropdownItem>
         </ motion.div>
         }
 
-        {activeMenu === 'trends' && <motion.div
-          key='trends'
+        {activeMenu === 'answers' && <motion.div
+          key='answers'
           ref={menuRef}
           transition={{ type: 'tween', duration: 0.4 }}
           initial={{ x: "110%" }}

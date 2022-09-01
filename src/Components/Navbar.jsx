@@ -20,14 +20,14 @@ const StyledList = styled.ul`
   justify-content: flex-end;
 `;
 
-function Navbar({ answers }) {
+function Navbar({ answers, openModal }) {
 
   return (
     <StyledNav>
       <StyledList>
         <div style={{ fontSize: '1.3rem', fontWeight: 800, alignSelf: 'center', textAlign: 'center', width: '100%' }}>THORDLE</div>
         <NavItem icon={<Menu />} >
-          <Dropdown answers={answers} />
+          <Dropdown answers={answers} openModal={openModal} />
         </NavItem>
       </StyledList>
     </StyledNav>

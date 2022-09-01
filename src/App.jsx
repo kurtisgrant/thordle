@@ -1,9 +1,11 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import Navbar from './components/Navbar';
 import GameBoards from './components/GameBoards';
 import Keyboard from './components/Keyboard';
+import InstructionsModal from './components/Modal/InstructionsModal';
+import UserStatsModal from './components/Modal/UserStatsModal';
 
 import words5 from './data/962-5-letter-words';
 import randomWordsByDate from './helpers/randomWordsByDate';
@@ -35,9 +37,11 @@ const answers = randomWordsByDate(words5);
 
 function App() {
 
+  const [currentModal, setCurrentModal] = useState('instructions')
+
   const {
     addLetter, removeLetter, submitGuess, 
-    gameStatus, refreshGame,
+    gameStatus, userData, refreshGame,
     guesses, guessEvals, alphaMap,
     curGuesses, curGuessInd
   } = useGameLogic({ answers });
@@ -52,6 +56,14 @@ function App() {
       submitGuess();
     }
   };
+
+  function openModal(modal) {
+    setCurrentModal(modal)
+  }
+
+  function closeModal() {
+    setCurrentModal(null)
+  }
 
   // On first render
   useEffect(() => {
@@ -71,7 +83,9 @@ function App() {
 
   return (
     <StyledApp>
-      <Navbar answers={answers} />
+      <Navbar answers={answers} openModal={openModal} />
+      {currentModal === 'instructions' && <InstructionsModal handleClose={closeModal} /> }
+      {currentModal === 'stats' && <UserStatsModal handleClose={closeModal} userStats={userData} />}
       <GameWrapper>
         <GameBoards {...{
           answers,
