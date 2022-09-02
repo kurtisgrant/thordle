@@ -61,7 +61,7 @@ const StyledStats = styled.div`
 function UserStatsModal({ handleClose, userStats }) {
 
   const gamesPlayed = userStats.gamesLost + userStats.gamesWon;
-  const winPercentage = Math.round(userStats.gamesWon / gamesPlayed * 100);
+  const winPercentage = gamesPlayed ? Math.round(userStats.gamesWon / gamesPlayed * 100) : 0;
 
   const highestDistribution = Math.max(...userStats.guessDistribution);
   const distributionPercentages = userStats.guessDistribution.map(d => Math.round(d / highestDistribution * 100));
