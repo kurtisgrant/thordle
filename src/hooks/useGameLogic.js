@@ -20,7 +20,7 @@ const INIT_GAME_DATA = {
   guesses: []
 };
 
-export default function useGameLogic({ answers }) {
+export default function useGameLogic({ answers, openModal }) {
 
   const [curGuesses, setCurGuesses] = useState(['', '', '']);
   const [curGuessInd, setCurGuessInd] = useState(0);
@@ -87,6 +87,7 @@ export default function useGameLogic({ answers }) {
       // Winning case
 
       console.log('Winner');
+      openModal('stats')
       setGameData(prev => {
         return {
           ...prev,
@@ -118,6 +119,7 @@ export default function useGameLogic({ answers }) {
       // Losing case
 
       console.log('Game over');
+      openModal('stats');
       setGameData(prev => {
         return {
           ...prev,

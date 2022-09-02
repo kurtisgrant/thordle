@@ -38,14 +38,14 @@ const answers = randomWordsByDate(words5);
 
 function App() {
 
-  const [currentModal, setCurrentModal] = useState('instructions');
+  const [currentModal, setCurrentModal] = useState(null);
 
   const {
     addLetter, removeLetter, submitGuess,
     gameStatus, userData, refreshGame,
     guesses, guessEvals, alphaMap,
     curGuesses, curGuessInd
-  } = useGameLogic({ answers });
+  } = useGameLogic({ answers, openModal });
 
   function handleKeyPress(e) {
     if (gameStatus !== 'active') return;
@@ -68,10 +68,10 @@ function App() {
 
   // On first render
   useEffect(() => {
-    console.log('words: ', answers);
     setAppHeight();
     refreshGame();
     window.onresize = setAppHeight;
+    gameStatus !== 'active' ? openModal('stats') : openModal('instructions');
   }, []);
 
   // On every render
