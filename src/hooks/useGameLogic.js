@@ -137,6 +137,8 @@ export default function useGameLogic({ answers }) {
 
   function addLetter(letter) {
 
+    if (gameStatus !== 'active') return;
+
     const curGuess = curGuesses[curGuessInd] || '';
     if (curGuesses[curGuessInd].length === answers[curGuessInd].length) return;
 
