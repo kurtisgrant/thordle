@@ -5,7 +5,8 @@ import DropdownItem from './DropdownItem';
 import { ReactComponent as ChevronRight } from '../assets/chevron-right.svg';
 import { ReactComponent as ChevronLeft } from '../assets/chevron-left.svg';
 import { ReactComponent as TrendingUp } from '../assets/trending-up.svg';
-import { ReactComponent as Activity } from '../assets/activity.svg';
+import { ReactComponent as HelpCircle } from '../assets/help-circle.svg';
+import { ReactComponent as AlertTriangle } from '../assets/alert-triangle.svg';
 
 const StyledDropdown = styled(motion.div)`
   position: absolute;
@@ -48,18 +49,18 @@ function Dropdown(props) {
           onAnimationStart={calcHeight}
         >
           <DropdownItem
-            leftIcon={<TrendingUp />}
-            rightIcon={<ChevronRight />}
-            click={() => setActiveMenu('answers')}
-          >Answers</DropdownItem>
+            leftIcon={<HelpCircle />}
+            click={() => props.openModal('instructions')}
+          >Instructions</DropdownItem>
           <DropdownItem
-            leftIcon={<Activity />}
+            leftIcon={<TrendingUp />}
             click={() => props.openModal('stats')}
           >My Stats</DropdownItem>
           <DropdownItem
-            leftIcon={<Activity />}
-            click={() => props.openModal('instructions')}
-          >Instructions</DropdownItem>
+            leftIcon={<AlertTriangle />}
+            rightIcon={<ChevronRight />}
+            click={() => setActiveMenu('answers')}
+          >Answers</DropdownItem>
         </ motion.div>
         }
 
@@ -77,7 +78,7 @@ function Dropdown(props) {
             click={() => setActiveMenu('main')}
           >Back</DropdownItem>
           <DropdownItem
-            leftIcon={<Activity />}
+            leftIcon={<AlertTriangle />}
           >{props.answers.toString()}</DropdownItem>
         </ motion.div>
         }
