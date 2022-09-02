@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { AnimatePresence } from 'framer-motion';
 
 import Navbar from './components/Navbar';
 import GameBoards from './components/GameBoards';
@@ -37,10 +38,10 @@ const answers = randomWordsByDate(words5);
 
 function App() {
 
-  const [currentModal, setCurrentModal] = useState('instructions')
+  const [currentModal, setCurrentModal] = useState('instructions');
 
   const {
-    addLetter, removeLetter, submitGuess, 
+    addLetter, removeLetter, submitGuess,
     gameStatus, userData, refreshGame,
     guesses, guessEvals, alphaMap,
     curGuesses, curGuessInd
@@ -58,16 +59,16 @@ function App() {
   };
 
   function openModal(modal) {
-    setCurrentModal(modal)
+    setCurrentModal(modal);
   }
 
   function closeModal() {
-    setCurrentModal(null)
+    setCurrentModal(null);
   }
 
   // On first render
   useEffect(() => {
-    console.log('words: ', answers)
+    console.log('words: ', answers);
     setAppHeight();
     refreshGame();
     window.onresize = setAppHeight;
@@ -84,8 +85,10 @@ function App() {
   return (
     <StyledApp>
       <Navbar answers={answers} openModal={openModal} />
-      {currentModal === 'instructions' && <InstructionsModal handleClose={closeModal} /> }
-      {currentModal === 'stats' && <UserStatsModal handleClose={closeModal} userStats={userData} />}
+      <AnimatePresence initial="false" exitBeforeEnter="true">
+        {currentModal === 'instructions' && <InstructionsModal handleClose={closeModal} />}
+        {currentModal === 'stats' && <UserStatsModal handleClose={closeModal} userStats={userData} />}
+      </AnimatePresence>
       <GameWrapper>
         <GameBoards {...{
           answers,

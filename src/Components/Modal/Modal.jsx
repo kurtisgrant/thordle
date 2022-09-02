@@ -8,12 +8,34 @@ const StyledModal = styled(motion.div)`
   width: clamp(50%, 700px,75%);
   height: min-content(50%, 300px);
   margin: auto;
-  padding: 1rem 2rem;
+  padding: 1rem;
   border: solid white 1px;
   border-radius: 12px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  font-size: 0.9rem;
+  font-weight: 600;
+  h2 {
+    text-align: center;
+    text-transform: uppercase;
+  }
+  .close-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: none;
+    font-size: 1.2rem;
+    font-weight: 900;
+    color: white;
+    outline: none;
+    border: none;
+    padding: 0.8rem 1rem;
+    cursor: pointer;
+    :hover {
+      opacity: 0.7;
+    }
+  }
 `;
 
 const animationSteps = {
@@ -48,7 +70,7 @@ function Modal({ children, handleClose }) {
         exit="exit"
       >
         {children}
-        <button onClick={handleClose}>Close</button>
+        <button className="close-button" onClick={handleClose}>X</button>
       </StyledModal>
 
     </Backdrop>
