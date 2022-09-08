@@ -34,8 +34,8 @@ function InstructionsModal({ handleClose }) {
       <StyledInstructions>
         <h2>How to Play</h2>
         <p>Guess the THORDLE in five tries.</p>
-        <p>Each guess must be three valid five-letter words. Hit the enter button to submit.</p>
-        <p>After each guess, the color of the tiles will change to show how close your guess was to the word.</p>
+        <p>Type your guesses for three valid five-letter words then hit the enter button to submit.</p>
+        <p>After submitting your guesses, the color of the tiles will change to show how close your guesses were to the answers.</p>
         <hr />
         <h3>Examples:</h3>
         <div className="example-row">
