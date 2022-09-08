@@ -12,6 +12,7 @@ const StyledBackdrop = styled(motion.div)`
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 20;
 `
 
 function Backdrop({ children, onClick }) {
