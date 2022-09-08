@@ -6,7 +6,10 @@ import Square from '../Square';
 
 const StyledInstructions = styled.div`
   p {
-    margin: 0.8rem 0;
+    margin: 0.7rem 0;
+  }
+  h3 {
+    margin: 0.8rem 0 0.6rem;
   }
   .example-row {
     display: grid;
@@ -33,9 +36,9 @@ function InstructionsModal({ handleClose }) {
     <Modal handleClose={handleClose}>
       <StyledInstructions>
         <h2>How to Play</h2>
-        <p>Guess the THORDLE in five tries.</p>
-        <p>Type your guesses for three valid five-letter words then hit the enter button to submit.</p>
-        <p>After submitting your guesses, the color of the tiles will change to show how close your guesses were to the answers.</p>
+        <p>Guess today's THORDLE in five tries.</p>
+        <p>Type your guesses for three valid five-letter words then hit enter to submit.</p>
+        <p>The tiles will change colour to reveal clues about the answers.</p>
         <hr />
         <h3>Examples:</h3>
         <div className="example-row">

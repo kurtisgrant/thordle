@@ -14,7 +14,7 @@ const StyledModal = styled(motion.div)`
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   font-weight: 600;
   h2 {
     text-align: center;
