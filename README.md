@@ -6,11 +6,11 @@
 
 ## Instructions
 
-Guess the THORDLE in five tries.
+Guess today's THORDLE in five tries..
 
-Each guess must be a valid five-letter word. Hit the enter button to submit.
+Type your guesses for three valid five-letter words then hit enter to submit.
 
-After each guess, the color of the tiles will change to show how close your guess was to the word.
+The tiles will change colour to reveal clues about the answers.
 
 **Green** means the guessed letter was correct.
 

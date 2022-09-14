@@ -4,14 +4,7 @@ var fs = require('fs');
 const COMMON_WORDS = 'src/commonWords.txt';
 const SCRABBLE_WORDS = 'src/scrabbleWords.txt';
 
-const passedArg = process.argv[2];
-if (!passedArg) {
-  console.log('Missing word length parameter. Exiting.');
-  process.exit();
-}
-const WD_LENGTH = Number(passedArg);
-
-
+const WD_LENGTH = 5;
 
 fs.readFile(SCRABBLE_WORDS, 'utf8', function(err, scblTxt) {
   if (err) throw err;
