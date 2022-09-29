@@ -42,7 +42,7 @@ margin-left: auto;
 
 function DropdownItem(props) {
   return (
-    <StyledLink href="#" onClick={props.click}>
+    <StyledLink href={props.href ? props.href : "#"} target={props.href && "_blank"} onClick={props.click && props.click}>
       {props.leftIcon && <StyledIconLeft>{props.leftIcon}</StyledIconLeft>}
       {props.children}
       <StyledIconRight>{props.rightIcon}</StyledIconRight>

@@ -34,7 +34,7 @@ function Navbar({ answers, openModal }) {
           width: '100%' 
           }}>THORDLE</div>
         <NavItem icon={<Menu />} >
-          <Dropdown answers={answers} openModal={openModal} />
+          <Dropdown openModal={openModal} />
         </NavItem>
       </StyledList>
     </StyledNav>

@@ -6,7 +6,7 @@ import { ReactComponent as ChevronRight } from '../assets/chevron-right.svg';
 import { ReactComponent as ChevronLeft } from '../assets/chevron-left.svg';
 import { ReactComponent as TrendingUp } from '../assets/trending-up.svg';
 import { ReactComponent as HelpCircle } from '../assets/help-circle.svg';
-import { ReactComponent as AlertTriangle } from '../assets/alert-triangle.svg';
+import { ReactComponent as Feedback } from '../assets/send.svg';
 
 const StyledDropdown = styled(motion.div)`
   position: absolute;
@@ -57,29 +57,9 @@ function Dropdown(props) {
             click={() => props.openModal('stats')}
           >My Stats</DropdownItem>
           <DropdownItem
-            leftIcon={<AlertTriangle />}
-            rightIcon={<ChevronRight />}
-            click={() => setActiveMenu('answers')}
-          >Answers</DropdownItem>
-        </ motion.div>
-        }
-
-        {activeMenu === 'answers' && <motion.div
-          key='answers'
-          ref={menuRef}
-          transition={{ type: 'tween', duration: 0.4 }}
-          initial={{ x: "110%" }}
-          animate={{ x: "0%" }}
-          exit={{ x: "110%" }}
-          onAnimationStart={calcHeight}
-        >
-          <DropdownItem
-            leftIcon={<ChevronLeft />}
-            click={() => setActiveMenu('main')}
-          >Back</DropdownItem>
-          <DropdownItem
-            leftIcon={<AlertTriangle />}
-          >{props.answers.toString()}</DropdownItem>
+            leftIcon={<Feedback />}
+            href="https://forms.gle/SfDUnEa6hgD8bKuCA"
+          >Submit Feedback</DropdownItem>
         </ motion.div>
         }
 
