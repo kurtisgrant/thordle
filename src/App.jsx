@@ -39,6 +39,7 @@ const answers = randomWordsByDate(words5);
 function App() {
 
   const [currentModal, setCurrentModal] = useState(null);
+  const [init, setInit] = useState(true);
 
   const {
     addLetter, removeLetter, submitGuess,
@@ -71,8 +72,11 @@ function App() {
     setAppHeight();
     refreshGame();
     window.onresize = setAppHeight;
-    gameStatus !== 'active' ? openModal('stats') : openModal('instructions');
-  }, []);
+    if (init) {
+      gameStatus !== 'active' ? openModal('stats') : openModal('instructions');
+      setInit(false);
+    }
+  }, [gameStatus, refreshGame]);
 
   // On every render
   useEffect(() => {
