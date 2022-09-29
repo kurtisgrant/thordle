@@ -67,12 +67,12 @@ function App() {
     setCurrentModal(null);
   }
 
-  // On first render
   useEffect(() => {
-    setAppHeight();
-    refreshGame();
-    window.onresize = setAppHeight;
+    // On first render
     if (init) {
+      setAppHeight();
+      refreshGame();
+      window.onresize = setAppHeight;
       gameStatus !== 'active' ? openModal('stats') : openModal('instructions');
       setInit(false);
     }
@@ -90,8 +90,10 @@ function App() {
     <StyledApp>
       <Navbar answers={answers} openModal={openModal} />
       <AnimatePresence initial="false" exitBeforeEnter="true">
-        {currentModal === 'instructions' && <InstructionsModal handleClose={closeModal} />}
-        {currentModal === 'stats' && <UserStatsModal handleClose={closeModal} userStats={userData} />}
+        {currentModal === 'instructions' &&
+          <InstructionsModal handleClose={closeModal} />}
+        {currentModal === 'stats' &&
+          <UserStatsModal handleClose={closeModal} userStats={userData} gameStatus={gameStatus} answers={answers} />}
       </AnimatePresence>
       <GameWrapper>
         <GameBoards {...{

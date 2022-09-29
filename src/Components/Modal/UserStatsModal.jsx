@@ -56,9 +56,14 @@ const StyledStats = styled.div`
       width: 20px;
     }
   }
+  .answers {
+    font-size: 1.5rem;
+    font-weight: 900;
+    margin-bottom: 1rem;
+  }
 `;
 
-function UserStatsModal({ handleClose, userStats }) {
+function UserStatsModal({ handleClose, userStats, gameStatus, answers }) {
 
   const gamesPlayed = userStats.gamesLost + userStats.gamesWon;
   const winPercentage = gamesPlayed ? Math.round(userStats.gamesWon / gamesPlayed * 100) : 0;
@@ -66,9 +71,15 @@ function UserStatsModal({ handleClose, userStats }) {
   const highestDistribution = Math.max(...userStats.guessDistribution);
   const distributionPercentages = userStats.guessDistribution.map(d => Math.round(d / highestDistribution * 100));
 
+  const answersSection = gameStatus === 'lost' ? <>
+    <h2>The Answers Were:</h2>
+    <div className="answers">{answers[0]}, {answers[1]}, {answers[2]}</div>
+  </> : '';
+
   return (
     <Modal handleClose={handleClose}>
       <StyledStats>
+        {answersSection}
         <h2>Statistics</h2>
         <div className="stats-row">
           <div className="stats-group">
