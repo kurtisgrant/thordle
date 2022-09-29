@@ -32,9 +32,7 @@ const GameWrapper = styled.div`
   align-items: center;
 `;
 
-// const answers = getAnswers(words5);
 const answers = randomWordsByDate(words5);
-// const answers = ['TRAIN', 'STRAP', 'YIKES']
 
 function App() {
 
@@ -76,7 +74,7 @@ function App() {
       gameStatus !== 'active' ? openModal('stats') : openModal('instructions');
       setInit(false);
     }
-  }, [gameStatus, refreshGame]);
+  }, [init, gameStatus, refreshGame]);
 
   // On every render
   useEffect(() => {
@@ -109,6 +107,7 @@ function App() {
           alphaMap,
           curGuessInd
         }} />
+        <div className="footer">Made by Kurtis Grant</div>
       </GameWrapper>
     </StyledApp>
   );
@@ -116,22 +115,9 @@ function App() {
 
 export default App;
 
-function getAnswers(wordsArray) {
-  const words = [];
-  for (let i = 0; i < 3; i++) {
-    let word = wordsArray[Math.floor(Math.random() * wordsArray.length)].toUpperCase();
-    words.push(word);
-  }
-  return words;
-}
-
 function setAppHeight() {
   // Set CSS vh variable to window innerheight. 
   // This sets proper page sizes for mobile browsers.
   const vh = window.innerHeight * 0.01;
   document.documentElement.style.setProperty('--vh', `${vh}px`);
 };
-
-function log(name, thing = ' ') {
-  console.log(`${name}: `, thing);
-}
