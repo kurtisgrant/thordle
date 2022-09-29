@@ -30,6 +30,15 @@ const GameWrapper = styled.div`
   width: 100%;
   height: 100%;
   align-items: center;
+  .footer {
+    margin-top: 1rem;
+    color: #ccc;
+    a {
+      font-weight: 800;
+      text-decoration: underline;
+      color: #b079b6;
+    }
+  }
 `;
 
 const answers = randomWordsByDate(words5);
@@ -107,7 +116,7 @@ function App() {
           alphaMap,
           curGuessInd
         }} />
-        <div className="footer">Made by Kurtis Grant</div>
+        <div className="footer">Hire the developer! <a target="_blank" href="https://kurtisgrant.com">Kurtis Grant</a></div>
       </GameWrapper>
     </StyledApp>
   );
