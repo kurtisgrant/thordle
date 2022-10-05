@@ -36,6 +36,11 @@ function Keyboard({ alphaMap, curGuessInd, addLetter, removeLetter, submitGuess 
   const letterRows = ['QWERTYUIOP', 'ASDFGHJKL', 'ZXCVBNM'];
   const keyRows = [];
 
+  const addLetterTouch = (e, letter) => {
+    addLetter(letter);
+    e.preventDefault();
+  };
+
   for (let lRow of letterRows) {
     const keyRow = [];
     for (let letter of lRow) {
@@ -45,6 +50,7 @@ function Keyboard({ alphaMap, curGuessInd, addLetter, removeLetter, submitGuess 
         key={letter}
         state={state}
         onClick={() => addLetter(letter)}
+        onTouchEnd={(e) => addLetterTouch(e, letter)}
       >{letter}</Key>);
     }
     keyRows.push(keyRow);
