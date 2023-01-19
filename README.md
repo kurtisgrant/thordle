@@ -29,16 +29,3 @@ The tiles will change colour to reveal clues about the answers.
 - **Styled Components**
 - **Framer Motion**
 
-### Todo: 
-***Most recent update: Aug 24, 2022***
-- [X] Build react components for gameplay (board, keyboard, tiles, etc.).
-- [X] Setup game logic and conditional component rendering.
-- [X] Implement animations with Framer Motion.
-- [X] Add navbar with animated dropdown menu.
-- [X] Adjust game logic ()
-- [X] Deploy to thordle.com
-- [X] Implement daily puzzles rather than random on every refresh.
-- [X] Implement local storage for game state.
-- [X] Implement local storage for user game statistics.
-- [ ] Implement instructions & end-of-game modals.
-- [ ] Implement light/dark mode with switch in dropdown.
