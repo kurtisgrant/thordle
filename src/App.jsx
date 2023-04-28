@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
 import { AnimatePresence } from 'framer-motion';
 
@@ -47,13 +47,27 @@ function App() {
 
   const [currentModal, setCurrentModal] = useState(null);
   const [init, setInit] = useState(true);
+  const boardRefs = useRef([]);
+
+  const scrollBoardToCenter = (boardIndex) => {
+    const board = boardRefs.current[boardIndex];
+    if (board) {
+      setTimeout(() => {
+        board.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+          inline: 'center'
+        });
+      }, 300);
+    }
+  };
 
   const {
     addLetter, removeLetter, submitGuess,
     gameStatus, userData, refreshGame,
     guesses, guessEvals, alphaMap,
     curGuesses, curGuessInd
-  } = useGameLogic({ answers, openModal });
+  } = useGameLogic({ answers, openModal, scrollBoardToCenter });
 
   function handleKeyPress(e) {
     if (gameStatus !== 'active') return;
@@ -79,6 +93,7 @@ function App() {
     if (init) {
       setAppHeight();
       refreshGame();
+      scrollBoardToCenter(0);
       window.onresize = setAppHeight;
       gameStatus !== 'active' ? openModal('stats') : openModal('instructions');
       setInit(false);
@@ -107,7 +122,8 @@ function App() {
           answers,
           guesses,
           guessEvals,
-          curGuesses
+          curGuesses,
+          boardRefs
         }} />
         <Keyboard {...{
           addLetter,

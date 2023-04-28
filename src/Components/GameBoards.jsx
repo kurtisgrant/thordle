@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 
 import Board from './Board';
 
-const BoardsWrapper = styled(motion.div)`
+const BoardsWrapper = styled.div`
 width: 100%;
 display: flex;
 gap: 2rem;
@@ -13,19 +13,26 @@ overflow-x: scroll;
 scrollbar-width: none;
 &::-webkit-scrollbar { width: 0 !important }
 `;
+const Spacer = styled.div`
+min-width: 45vw;
+flex: 0.5;
+`;
 
 function GameBoards(props) {
   return (
     <BoardsWrapper>
-      {props.answers.map((answer, i) => {
-        const bGuesses = props.guesses?.map(row => row[i]) || [];
-        const bGuessEvals = props.guessEvals.map(row => row[i]);
-        return <Board
-          key={i}
-          boardIndex={i}
-          {...{ answer, bGuesses, bGuessEvals, ...props }}
-        />;
-      })}
+        <Spacer ></Spacer>
+        {props.answers.map((answer, i) => {
+          const bGuesses = props.guesses?.map(row => row[i]) || [];
+          const bGuessEvals = props.guessEvals.map(row => row[i]);
+          return <Board
+            key={i}
+            boardIndex={i}
+            boardRefs={props.boardRefs}
+            {...{ answer, bGuesses, bGuessEvals, ...props }}
+          />;
+        })}
+        <Spacer ></Spacer>
     </BoardsWrapper>
   );
 }

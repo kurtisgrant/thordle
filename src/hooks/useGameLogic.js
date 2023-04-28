@@ -20,7 +20,7 @@ const INIT_GAME_DATA = {
   guesses: []
 };
 
-export default function useGameLogic({ answers, openModal }) {
+export default function useGameLogic({ answers, openModal, scrollBoardToCenter }) {
 
   const [curGuesses, setCurGuesses] = useState(['', '', '']);
   const [curGuessInd, setCurGuessInd] = useState(0);
@@ -44,6 +44,7 @@ export default function useGameLogic({ answers, openModal }) {
     if (newGuessInd === curGuessInd) return;
     if (newGuessInd === answers.length) return;
     if (newGuessInd < 0) return;
+    scrollBoardToCenter(newGuessInd);
     setCurGuessInd(newGuessInd);
 
   }, [curGuesses]);

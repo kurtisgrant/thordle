@@ -23,7 +23,7 @@ const StyledBoard = styled.div`
 `;
 
 function Board(props) {
-  const { boardIndex, bGuesses, bGuessEvals, answer, curGuesses } = props;
+  const { boardIndex, bGuesses, bGuessEvals, answer, curGuesses, boardRefs } = props;
   const [isInvalid, setInvalid] = useState(false)
 
   const curGuess = curGuesses[boardIndex]
@@ -70,7 +70,7 @@ function Board(props) {
 
   return (
     <BoardWrapper>
-      <StyledBoard>
+      <StyledBoard ref={el => boardRefs.current[boardIndex] = el}>
         {Rows}
       </StyledBoard>
     </BoardWrapper>
